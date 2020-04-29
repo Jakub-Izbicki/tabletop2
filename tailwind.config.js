@@ -1,7 +1,10 @@
 module.exports = {
   theme: {
     extend: {
-      colors: {},
+      colors: {
+        background: "rgb(131,180,164)",
+        backgroundAlt: "rgb(167,174,180)",
+      },
     },
   },
   variants: {},
