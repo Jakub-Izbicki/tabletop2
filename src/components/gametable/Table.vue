@@ -1,22 +1,31 @@
 <template>
-  <div>
-    <div class="grid grid-cols-5 grid-rows-5">
+  <div class="border-solid border-8">
+    <transition-group name="grid" tag="div" class="grid text-vw">
       <div v-for="slot in gridSlots"
-           :key="slot.x + slot.y"
-           class="bg-backgroundAlt"
-           :style="[{'grid-column-start': `${slot.x}`},
-         {'grid-row-start': `${slot.y}`}]">
-        {{slot.id}}
+           :key="slot.id"
+           class="h-gridCard w-gridCard bg-gridSlot"
+           :style="[{'grid-column-start': `${slot.col}`},
+                    {'grid-row-start': `${slot.row}`}]"
+           @dragover.prevent
+           @dragenter="onDragEnter(slot.id)"
+           @drop.prevent>
+        <div class="text-base">
+          {{slot.id}}
+        </div>
       </div>
 
-      <div v-for="card in cards"
-           :key="card.x + card.y"
-           class="bg-background"
-           :style="[{'grid-column-start': `${card.x}`},
-         {'grid-row-start': `${card.y}`}]">
-        {{card.name}}
+      <div v-for="card in gridCards"
+           :key="card.id"
+           class="h-gridCard w-gridCard bg-cardPlaceholder rounded-lg"
+           :style="[{'grid-column-start': `${card.col}`},
+                    {'grid-row-start': `${card.row}`}]"
+           draggable="true"
+           @dragstart="onDragStart(card.id)">
+        <div class="text-base">
+          {{card.name}}
+        </div>
       </div>
-    </div>
+    </transition-group>
   </div>
 </template>
 
@@ -25,28 +34,32 @@
     name: "Table",
     data() {
       return {
-        cards: [
+        gridCards: [
           {
-            x: '1',
-            y: '1',
-            name: 'name here 1'
+            id: '1',
+            col: '1',
+            row: '1',
+            name: 'name 1'
           },
           {
-            x: '2',
-            y: '5',
-            name: 'name here 2'
+            id: '2',
+            col: '2',
+            row: '5',
+            name: 'name 2'
           },
           {
-            x: '3',
-            y: '1',
-            name: 'name here 3'
+            id: '3',
+            col: '3',
+            row: '1',
+            name: 'name 3'
           },
-        ]
+        ],
+        draggedCardId: null,
       }
     },
     computed: {
       gridSlots() {
-        const cols = 5;
+        const cols = 15;
         const rows = 5;
         const slots = [];
 
@@ -54,19 +67,39 @@
           [...Array(rows).keys()].map(row => row + 1).forEach(row => {
             slots.push({
               id: `${col}-${row}`,
-              x: col,
-              y: row,
+              col,
+              row,
+              occupied: false,
             })
           })
-        })
+        });
 
-        console.log(slots);
         return slots;
+      }
+    },
+    methods: {
+      onDragStart(cardId) {
+        this.draggedCardId = cardId;
+      },
+      onDragEnter(slotId) {
+        console.log('drag enter');
+        this.moveCardToSlot(this.draggedCardId, slotId);
+      },
+      moveCardToSlot(cardId, slotId) {
+        const targetSlot = this.gridSlots.find(slot => slot.id === slotId);
+        this.gridCards = this.gridCards.map(card => {
+          if (card.id === cardId) {
+            return {...card, col: targetSlot.col, row: targetSlot.row};
+          }
+          return card;
+        })
       }
     }
   }
 </script>
 
 <style scoped>
-
+  .grid-move {
+    transition: all 0.1s;
+  }
 </style>

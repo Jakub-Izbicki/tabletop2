@@ -2,8 +2,18 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        background: "rgb(131,180,164)",
-        backgroundAlt: "rgb(167,174,180)",
+        cardPlaceholder: "rgb(102,180,146)",
+        gridSlot: "rgb(207,214,220)",
+      },
+      height: {
+        gridCard: `${10 * 0.88}em`,
+      },
+      width: {
+        gridCard: `${10 * 0.63}em`,
+        grid: '50em',
+      },
+      fontSize: {
+        vw: '1vw',
       },
     },
   },
