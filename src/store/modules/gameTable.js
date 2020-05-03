@@ -24,27 +24,24 @@ export default {
         name: 'name 3'
       },
     ],
+    gridSlots: [],
   },
   getters: {
+    cols(state) {
+      return state.cols;
+    },
+    rows(state) {
+      return state.rows;
+    },
     gridCards(state) {
       return state.gridCards;
     },
     gridSlots(state) {
-      const slots = [];
-
-      [...Array(state.cols).keys()].map(col => col + 1).forEach(col => {
-        [...Array(state.rows).keys()].map(row => row + 1).forEach(row => {
-          slots.push({
-            id: `${col}-${row}`,
-            col,
-            row,
-            occupied: false,
-          })
-        })
-      });
-
-      return slots;
+      return state.gridSlots;
     },
+    draggedCardId(state) {
+      return state.draggedCardId;
+    }
   },
   mutations: {
     MOVE_CARD_TO_SLOT(state, {cardId, slotId, gridSlots}) {
@@ -56,6 +53,12 @@ export default {
         }
         return card;
       })
+    },
+    SET_DRAGGED_CARD(state, {cardId}) {
+      state.draggedCardId = cardId;
+    },
+    SETUP_GRID_SLOTS(state, {slots}) {
+      state.gridSlots = slots;
     }
   },
   actions: {
@@ -65,6 +68,12 @@ export default {
         slotId,
         gridSlots: getters.gridSlots,
       });
+    },
+    setDraggedCard({commit}, {cardId}) {
+      commit('SET_DRAGGED_CARD', {cardId});
+    },
+    setupGridSlots({commit}, {slots}) {
+      commit('SETUP_GRID_SLOTS', {slots});
     }
   },
 }

@@ -8,7 +8,7 @@
                     {'grid-row-start': `${slot.row}`}]"
            @dragover.prevent
            @dragenter="onDragEnter(slot.id)"
-           @drop.prevent>
+           @drop.prevent="onDrop(slot.id)">
       </div>
 
       <div v-for="card in gridCards"
@@ -41,23 +41,42 @@
         gridCards: state => state.gridCards,
       }),
       ...createNamespacedHelpers('gameTable').mapGetters([
-        'gridSlots',
+        'cols', 'rows', 'gridSlots', 'draggedCardId',
       ]),
+    },
+    created() {
+      const slots = [];
+
+      [...Array(this.cols).keys()].map(col => col + 1).forEach(col => {
+        [...Array(this.rows).keys()].map(row => row + 1).forEach(row => {
+          slots.push({
+            id: `${col}-${row}`,
+            col,
+            row,
+            occupied: false,
+          })
+        })
+      });
+
+      this.$store.dispatch('gameTable/setupGridSlots', {slots});
     },
     methods: {
       onDragStart(cardId) {
-        this.draggedCardId = cardId;
+        this.$store.dispatch('gameTable/setDraggedCard', {cardId});
         this.$store.dispatch('setTableCardDrag');
       },
       onDragEnd() {
         this.$store.dispatch('resetDrag');
       },
-      onDragEnter(slotId) {
+      onDragEnter() {
+
+      },
+      onDrop(slotId) {
         this.$store.dispatch('gameTable/moveCardToSlot', {
           cardId: this.draggedCardId,
           slotId,
         });
-      },
+      }
     }
   }
 </script>
