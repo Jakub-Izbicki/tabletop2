@@ -53,8 +53,10 @@
         this.$store.dispatch('resetDrag');
       },
       onDragEnter(slotId) {
-        console.log('drag enter');
-        this.$store.dispatch('gameTable/moveCardToSlot', this.draggedCardId, slotId);
+        this.$store.dispatch('gameTable/moveCardToSlot', {
+          cardId: this.draggedCardId,
+          slotId,
+        });
       },
     }
   }
