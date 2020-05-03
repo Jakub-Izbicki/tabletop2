@@ -4,6 +4,7 @@ export default {
     cols: 35,
     rows: 15,
     draggedCardId: null,
+    dragHoveredSlotId: null,
     gridCards: [
       {
         id: '1',
@@ -41,7 +42,7 @@ export default {
     },
     draggedCardId(state) {
       return state.draggedCardId;
-    }
+    },
   },
   mutations: {
     MOVE_CARD_TO_SLOT(state, {cardId, slotId, gridSlots}) {
@@ -59,21 +60,21 @@ export default {
     },
     SETUP_GRID_SLOTS(state, {slots}) {
       state.gridSlots = slots;
-    }
+    },
   },
   actions: {
-    moveCardToSlot({commit, getters}, {cardId, slotId}) {
+    moveCardToSlot({commit, getters}, {slotId}) {
       commit('MOVE_CARD_TO_SLOT', {
-        cardId,
+        cardId: getters.draggedCardId,
         slotId,
         gridSlots: getters.gridSlots,
       });
     },
-    setDraggedCard({commit}, {cardId}) {
+    setDraggedCardId({commit}, {cardId}) {
       commit('SET_DRAGGED_CARD', {cardId});
     },
     setupGridSlots({commit}, {slots}) {
       commit('SETUP_GRID_SLOTS', {slots});
-    }
+    },
   },
 }

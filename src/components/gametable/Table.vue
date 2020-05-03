@@ -1,20 +1,10 @@
 <template>
   <div>
     <transition-group name="grid" tag="div" class="grid text-vw">
-      <div v-for="slot in gridSlots"
-           :key="slot.id"
-           class="flex items-center justify-center
-                  h-gridSlot w-full border-solid border-2 rounded-lg"
-           :style="[{'grid-column-start': `${slot.col}`},
-                    {'grid-row-start': `${slot.row}`}]"
-           @dragover.prevent
-           @dragenter="onDragEnter(slot.id)"
-           @dragleave="onDragLeave"
-           @drop.prevent="onDrop(slot.id)">
-<!--        <div ref=""-->
-<!--             class="absolute pointer-events-none h-gridCard w-gridCard bg-cardPrompt rounded-lg">-->
-<!--        </div>-->
-      </div>
+      <GridSlot v-for="slot in gridSlots"
+                :key="slot.id"
+                :grid-slot="slot">
+      </GridSlot>
 
       <div v-for="card in gridCards"
            :key="card.id"
@@ -35,18 +25,18 @@
 </template>
 
 <script>
-  import {mapGetters} from 'vuex';
   import {createNamespacedHelpers} from "vuex";
+  import GridSlot from "./GridSlot";
 
   export default {
     name: "Table",
+    components: {GridSlot},
     data() {
       return {
         dragHoveredSlotId: null,
       }
     },
     computed: {
-      ...mapGetters(['isTableCardDrag']),
       ...createNamespacedHelpers('gameTable').mapState({
         gridCards: state => state.gridCards,
       }),
@@ -72,27 +62,12 @@
     },
     methods: {
       onDragStart(cardId) {
-        this.$store.dispatch('gameTable/setDraggedCard', {cardId});
+        this.$store.dispatch('gameTable/setDraggedCardId', {cardId});
         this.$store.dispatch('setTableCardDrag');
       },
       onDragEnd() {
         this.$store.dispatch('resetDrag');
       },
-      onDragEnter(slotId) {
-        this.dragHoveredSlotId = slotId;
-      },
-      onDragLeave() {
-        this.dragHoveredSlotId = null;
-      },
-      onDrop(slotId) {
-        this.$store.dispatch('gameTable/moveCardToSlot', {
-          cardId: this.draggedCardId,
-          slotId,
-        });
-      },
-      isDragHovered(slotId) {
-        return this.dragHoveredSlotId === slotId;
-      }
     }
   }
 </script>

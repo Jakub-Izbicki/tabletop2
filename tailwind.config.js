@@ -3,7 +3,7 @@ module.exports = {
     extend: {
       colors: {
         cardPlaceholder: "rgb(102,180,146)",
-        cardPrompt: "rgba(170,180,179,0.56)",
+        cardPrompt: "rgba(170,180,179,0.75)",
       },
       height: {
         gridCard: `${10 * 0.88}em`,
