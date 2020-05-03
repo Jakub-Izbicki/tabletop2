@@ -18,7 +18,8 @@
                     {'grid-row-start': `${card.row}`}]">
         <div class=" absolute h-gridCard w-gridCard bg-cardPlaceholder rounded-lg"
              draggable="true"
-             @dragstart="onDragStart(card.id)">
+             @dragstart="onDragStart(card.id)"
+             @dragend.prevent="onDragEnd">
           <div class="text-base">
             {{card.name}}
           </div>
@@ -29,70 +30,32 @@
 </template>
 
 <script>
+  import {mapGetters} from 'vuex';
+  import {createNamespacedHelpers} from "vuex";
+
   export default {
     name: "Table",
-    data() {
-      return {
-        gridCards: [
-          {
-            id: '1',
-            col: '1',
-            row: '1',
-            name: 'name 1'
-          },
-          {
-            id: '2',
-            col: '2',
-            row: '5',
-            name: 'name 2'
-          },
-          {
-            id: '3',
-            col: '3',
-            row: '1',
-            name: 'name 3'
-          },
-        ],
-        draggedCardId: null,
-      }
-    },
     computed: {
-      gridSlots() {
-        const cols = 35;
-        const rows = 15;
-        const slots = [];
-
-        [...Array(cols).keys()].map(col => col + 1).forEach(col => {
-          [...Array(rows).keys()].map(row => row + 1).forEach(row => {
-            slots.push({
-              id: `${col}-${row}`,
-              col,
-              row,
-              occupied: false,
-            })
-          })
-        });
-
-        return slots;
-      }
+      ...mapGetters(['isTableCardDrag']),
+      ...createNamespacedHelpers('gameTable').mapState({
+        gridCards: state => state.gridCards,
+      }),
+      ...createNamespacedHelpers('gameTable').mapGetters([
+        'gridSlots',
+      ]),
     },
     methods: {
       onDragStart(cardId) {
         this.draggedCardId = cardId;
+        this.$store.dispatch('setTableCardDrag');
+      },
+      onDragEnd() {
+        this.$store.dispatch('resetDrag');
       },
       onDragEnter(slotId) {
         console.log('drag enter');
-        this.moveCardToSlot(this.draggedCardId, slotId);
+        this.$store.dispatch('gameTable/moveCardToSlot', this.draggedCardId, slotId);
       },
-      moveCardToSlot(cardId, slotId) {
-        const targetSlot = this.gridSlots.find(slot => slot.id === slotId);
-        this.gridCards = this.gridCards.map(card => {
-          if (card.id === cardId) {
-            return {...card, col: targetSlot.col, row: targetSlot.row};
-          }
-          return card;
-        })
-      }
     }
   }
 </script>
