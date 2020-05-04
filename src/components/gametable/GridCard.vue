@@ -1,9 +1,10 @@
 <template>
   <div class="flex items-center justify-center"
+       :class="{'transform scale-0 duration-1': isDragHide}"
        :style="[{'grid-column-start': `${card.col}`},
-                    {'grid-row-start': `${card.row}`}]">
+                {'grid-row-start': `${card.row}`}]">
     <div class=" absolute h-gridCard w-gridCard bg-cardPlaceholder rounded-lg"
-         :class="[{'pointer-events-none': isTableCardDrag && draggedCardId !== card.id}]"
+         :class="{'pointer-events-none': isTableCardDrag && draggedCardId !== card.id}"
          draggable="true"
          @dragstart="onDragStart"
          @dragend.prevent="onDragEnd">
@@ -20,6 +21,11 @@
   export default {
     name: "GridCard",
     props: ['card'],
+    data() {
+      return {
+        isDragHide: false,
+      }
+    },
     computed: {
       ...mapGetters(['isTableCardDrag']),
       ...createNamespacedHelpers('gameTable').mapGetters([
@@ -28,14 +34,17 @@
     },
     methods: {
       onDragStart() {
-        // {'transform translate-x-dragHide': isTableCardDrag && draggedCardId === card.id}
         this.$store.dispatch('gameTable/setDraggedCardId', {
           cardId: this.card.id
         });
         this.$store.dispatch('setTableCardDrag');
+        this.isDragHide = true;
       },
       onDragEnd() {
         this.$store.dispatch('resetDrag');
+        this.$nextTick(() => {
+          this.isDragHide = false;
+        })
       },
     }
   }

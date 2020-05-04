@@ -20,8 +20,8 @@ module.exports = {
       fontSize: {
         vw: '1vw',
       },
-      translate: {
-        dragHide: '9999px'
+      transitionDuration: {
+        1: '1ms',
       }
     },
   },

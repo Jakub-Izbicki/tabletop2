@@ -1,6 +1,6 @@
 <template>
   <div class="flex items-center justify-center
-                  h-gridSlot w-full border-solid border-2"
+                  h-gridSlot w-full"
        :style="[{'grid-column-start': `${gridSlot.col}`},
                 {'grid-row-start': `${gridSlot.row}`}]"
        @dragover="onDragOver"

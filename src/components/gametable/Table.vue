@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col border">
-    <transition-group name="grid" tag="div" class="grid text-vw m-gameTableGrid">
+    <div class="grid text-vw m-gameTableGrid">
       <GridSlot v-for="slot in gridSlots"
                 :key="slot.id"
                 :grid-slot="slot">
@@ -10,7 +10,7 @@
                 :key="card.id"
                 :card="card">
       </GridCard>
-    </transition-group>
+    </div>
   </div>
 </template>
 
@@ -55,7 +55,4 @@
 </script>
 
 <style scoped>
-  .grid-move {
-    transition: all 0.1s;
-  }
 </style>
