@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <transition-group name="grid" tag="div" class="grid text-vw">
+  <div class="flex flex-col border">
+    <transition-group name="grid" tag="div" class="grid text-vw m-gameTableGrid">
       <GridSlot v-for="slot in gridSlots"
                 :key="slot.id"
                 :grid-slot="slot">
@@ -12,6 +12,7 @@
            :style="[{'grid-column-start': `${card.col}`},
                     {'grid-row-start': `${card.row}`}]">
         <div class=" absolute h-gridCard w-gridCard bg-cardPlaceholder rounded-lg"
+             :class="[{'pointer-events-none': isTableCardDrag && draggedCardId !== card.id}]"
              draggable="true"
              @dragstart="onDragStart(card.id)"
              @dragend.prevent="onDragEnd">
@@ -25,7 +26,7 @@
 </template>
 
 <script>
-  import {createNamespacedHelpers} from "vuex";
+  import {mapGetters, createNamespacedHelpers} from "vuex";
   import GridSlot from "./GridSlot";
 
   export default {
@@ -37,6 +38,7 @@
       }
     },
     computed: {
+      ...mapGetters(['isTableCardDrag']),
       ...createNamespacedHelpers('gameTable').mapState({
         gridCards: state => state.gridCards,
       }),
@@ -62,6 +64,7 @@
     },
     methods: {
       onDragStart(cardId) {
+        // {'transform translate-x-dragHide': isTableCardDrag && draggedCardId === card.id}
         this.$store.dispatch('gameTable/setDraggedCardId', {cardId});
         this.$store.dispatch('setTableCardDrag');
       },

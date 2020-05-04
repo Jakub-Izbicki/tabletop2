@@ -14,9 +14,15 @@ module.exports = {
         gridSlot: `${5}em`,
         grid: '50em',
       },
+      margin: {
+        gameTableGrid: '4em 3em 4em 3em',
+      },
       fontSize: {
         vw: '1vw',
       },
+      translate: {
+        dragHide: '9999px'
+      }
     },
   },
   variants: {},

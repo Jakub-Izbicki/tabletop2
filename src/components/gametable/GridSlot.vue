@@ -2,7 +2,7 @@
   <div class="flex items-center justify-center
                   h-gridSlot w-full border-solid border-2"
        :style="[{'grid-column-start': `${gridSlot.col}`},
-                    {'grid-row-start': `${gridSlot.row}`}]"
+                {'grid-row-start': `${gridSlot.row}`}]"
        @dragover="onDragOver"
        @dragenter="onDragEnter"
        @dragleave="onDragLeave"
