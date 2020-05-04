@@ -6,44 +6,33 @@
                 :grid-slot="slot">
       </GridSlot>
 
-      <div v-for="card in gridCards"
-           :key="card.id"
-           class="flex items-center justify-center"
-           :style="[{'grid-column-start': `${card.col}`},
-                    {'grid-row-start': `${card.row}`}]">
-        <div class=" absolute h-gridCard w-gridCard bg-cardPlaceholder rounded-lg"
-             :class="[{'pointer-events-none': isTableCardDrag && draggedCardId !== card.id}]"
-             draggable="true"
-             @dragstart="onDragStart(card.id)"
-             @dragend.prevent="onDragEnd">
-          <div class="text-base">
-            {{card.name}}
-          </div>
-        </div>
-      </div>
+      <GridCard v-for="card in gridCards"
+                :key="card.id"
+                :card="card">
+      </GridCard>
     </transition-group>
   </div>
 </template>
 
 <script>
-  import {mapGetters, createNamespacedHelpers} from "vuex";
+  import {createNamespacedHelpers} from "vuex";
   import GridSlot from "./GridSlot";
+  import GridCard from "./GridCard";
 
   export default {
     name: "Table",
-    components: {GridSlot},
+    components: {GridCard, GridSlot},
     data() {
       return {
         dragHoveredSlotId: null,
       }
     },
     computed: {
-      ...mapGetters(['isTableCardDrag']),
       ...createNamespacedHelpers('gameTable').mapState({
         gridCards: state => state.gridCards,
       }),
       ...createNamespacedHelpers('gameTable').mapGetters([
-        'cols', 'rows', 'gridSlots', 'draggedCardId',
+        'cols', 'rows', 'gridSlots',
       ]),
     },
     created() {
@@ -62,16 +51,6 @@
 
       this.$store.dispatch('gameTable/setupGridSlots', {slots});
     },
-    methods: {
-      onDragStart(cardId) {
-        // {'transform translate-x-dragHide': isTableCardDrag && draggedCardId === card.id}
-        this.$store.dispatch('gameTable/setDraggedCardId', {cardId});
-        this.$store.dispatch('setTableCardDrag');
-      },
-      onDragEnd() {
-        this.$store.dispatch('resetDrag');
-      },
-    }
   }
 </script>
 
