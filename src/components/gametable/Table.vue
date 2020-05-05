@@ -1,6 +1,7 @@
 <template>
   <div class="flex flex-col border">
-    <div class="grid text-vw m-gameTableGrid">
+    <div class="grid text-vw"
+         :style="{'grid-template-columns': `5em repeat(${cols - 2}, minmax(0, 1fr)) 5em`}">
       <GridSlot v-for="slot in gridSlots"
                 :key="slot.id"
                 :grid-slot="slot">

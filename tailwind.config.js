@@ -8,21 +8,24 @@ module.exports = {
       height: {
         gridCard: `${10 * 0.88}em`,
         gridSlot: `${2}em`,
+        gridSlotEdge: `${6}em`,
       },
       width: {
         gridCard: `${10 * 0.63}em`,
-        gridSlot: `${5}em`,
-        grid: '50em',
-      },
-      margin: {
-        gameTableGrid: '4em 3em 4em 3em',
+        gridSlot: `${2}em`,
       },
       fontSize: {
         vw: '1vw',
       },
       transitionDuration: {
         1: '1ms',
-      }
+      },
+      translate: {
+        gridTranslateBottom: '-2em',
+        gridTranslateTop: '2em',
+        gridTranslateLeft: '1em',
+        gridTranslateRight: '-1em',
+      },
     },
   },
   variants: {},
