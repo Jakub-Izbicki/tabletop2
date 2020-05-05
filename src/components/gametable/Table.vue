@@ -1,6 +1,6 @@
 <template>
-  <div class="flex flex-col border">
-    <div class="grid text-vw"
+  <div class="flex flex-col">
+    <div class="grid text-vw border"
          :style="{'grid-template-columns': `5em repeat(${cols - 2}, minmax(0, 1fr)) 5em`}">
       <GridSlot v-for="slot in gridSlots"
                 :key="slot.id"
@@ -12,6 +12,7 @@
                 :card="card">
       </GridCard>
     </div>
+    <AnimatedCard></AnimatedCard>
   </div>
 </template>
 
@@ -19,10 +20,11 @@
   import {createNamespacedHelpers} from "vuex";
   import GridSlot from "./GridSlot";
   import GridCard from "./GridCard";
+  import AnimatedCard from "./AnimatedCard";
 
   export default {
     name: "Table",
-    components: {GridCard, GridSlot},
+    components: {AnimatedCard, GridCard, GridSlot},
     data() {
       return {
         dragHoveredSlotId: null,

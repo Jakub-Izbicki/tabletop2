@@ -4,6 +4,7 @@ module.exports = {
       colors: {
         cardPlaceholder: "rgb(102,180,146)",
         cardPrompt: "rgba(170,180,179,0.75)",
+        cardAnimated: "rgb(180,119,178)",
       },
       height: {
         gridCard: `${10 * 0.88}em`,
@@ -25,6 +26,9 @@ module.exports = {
         gridTranslateTop: '2em',
         gridTranslateLeft: '1em',
         gridTranslateRight: '-1em',
+      },
+      borderRadius: {
+        card: '.5em',
       },
     },
   },

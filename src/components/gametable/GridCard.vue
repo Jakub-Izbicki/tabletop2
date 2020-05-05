@@ -7,7 +7,7 @@
                 {'transform translate-x-gridTranslateRight': isRight}]"
        :style="[{'grid-column-start': `${card.col}`},
                 {'grid-row-start': `${card.row}`}]">
-    <div class=" absolute h-gridCard w-gridCard bg-cardPlaceholder rounded-lg"
+    <div class=" absolute h-gridCard w-gridCard bg-cardPlaceholder rounded-card"
          :class="{'pointer-events-none': isTableCardDrag && draggedCardId !== card.id}"
          draggable="true"
          @dragstart="onDragStart"

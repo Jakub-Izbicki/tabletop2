@@ -1,6 +1,5 @@
 <template>
-  <div class="flex items-center justify-center
-                  h-gridSlot border"
+  <div class="flex items-center justify-center h-gridSlot"
        :class="{'h-gridSlotEdge': isHorizontalBorder}"
        :style="[{'grid-column-start': `${gridSlot.col}`},
                 {'grid-row-start': `${gridSlot.row}`}]"
