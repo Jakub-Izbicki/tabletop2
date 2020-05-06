@@ -1,11 +1,13 @@
 <template>
-  <div
-      class="absolute pointer-events-none text-vw h-gridCard w-gridCard bg-cardAnimated rounded-card"
-      :style="[{'top': positionY},
-               {'left': positionX}]"
-      v-mousemove-outside="move">
-    <div class="text-base">
-      Animated card
+  <div class="absolute pointer-events-none h-full w-full"
+       @mousemove="move">
+    <div
+        class="absolute pointer-events-none text-vw h-gridCard w-gridCard bg-cardAnimated rounded-card"
+        :style="[{'top': top},
+               {'left': left}]">
+      <div class="text-base">
+        Animated card
+      </div>
     </div>
   </div>
 </template>
@@ -17,26 +19,18 @@
     name: "AnimatedCard",
     data() {
       return {
-        top: '0',
-        left: '0',
+        top: '10px',
+        left: '10px',
       }
     },
     computed: {
       ...createNamespacedHelpers('gameTable').mapGetters([
         'animatedCardVisible',
       ]),
-      positionX() {
-        return this.left + 'px';
-      },
-      positionY() {
-        return this.top + 'px';
-      },
     },
     methods: {
-      move(e) {
-        // this.top = e.clientY;
-        // this.left = e.clientX;
-        console.log({target: e.target.getBoundingClientRect()})
+      move() {
+        console.log('moving');
       }
     }
   }
