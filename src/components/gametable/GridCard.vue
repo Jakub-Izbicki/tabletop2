@@ -1,33 +1,49 @@
 <template>
   <div class="flex items-center justify-center"
-       :class="[{'transform scale-0 duration-1': isDragHide},
-                {'transform translate-y-gridTranslateBottom': isBottom},
+       :class="[{'transform translate-y-gridTranslateBottom': isBottom},
                 {'transform translate-y-gridTranslateTop': isTop},
                 {'transform translate-x-gridTranslateLeft': isLeft},
                 {'transform translate-x-gridTranslateRight': isRight}]"
        :style="[{'grid-column-start': `${card.col}`},
                 {'grid-row-start': `${card.row}`}]">
-    <div class=" absolute h-gridCard w-gridCard bg-cardPlaceholder rounded-card"
-         :class="{'pointer-events-none': isTableCardDrag && draggedCardId !== card.id}"
-         draggable="true"
-         @dragstart="onDragStart"
-         @dragend.prevent="onDragEnd">
+
+    <Moveable class="moveable absolute h-gridCard w-gridCard bg-cardPlaceholder rounded-card"
+              :class="{'pointer-events-none': isTableCardDrag && draggedCardId === card.id}"
+              v-bind="moveable"
+              @drag="handleDrag"
+              @dragStart="onDragStart"
+              @dragEnd="onDragEnd">
       <div class="text-base">
         {{card.name}}
       </div>
-    </div>
+    </Moveable>
+
   </div>
 </template>
 
 <script>
   import {mapGetters, createNamespacedHelpers} from "vuex";
+  import Moveable from 'vue-moveable';
 
   export default {
     name: "GridCard",
+    components: {Moveable},
     props: ['card'],
     data() {
       return {
-        isDragHide: false,
+        moveable: {
+          draggable: true,
+          throttleDrag: 0,
+          resizable: false,
+          throttleResize: 1,
+          keepRatio: false,
+          scalable: true,
+          throttleScale: 0,
+          rotatable: true,
+          throttleRotate: 0,
+          pinchable: true, // ["draggable", "resizable", "scalable", "rotatable"]
+          origin: false,
+        }
       }
     },
     computed: {
@@ -49,18 +65,17 @@
       },
     },
     methods: {
+      handleDrag({target, transform}) {
+        target.style.transform = transform;
+      },
       onDragStart() {
         this.$store.dispatch('gameTable/setDraggedCardId', {
           cardId: this.card.id
         });
         this.$store.dispatch('setTableCardDrag');
-        this.isDragHide = true;
       },
       onDragEnd() {
         this.$store.dispatch('resetDrag');
-        this.$nextTick(() => {
-          this.isDragHide = false;
-        })
       },
     }
   }

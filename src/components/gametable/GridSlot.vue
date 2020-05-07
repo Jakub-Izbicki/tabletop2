@@ -2,11 +2,7 @@
   <div class="flex items-center justify-center h-gridSlot"
        :class="{'h-gridSlotEdge': isHorizontalBorder}"
        :style="[{'grid-column-start': `${gridSlot.col}`},
-                {'grid-row-start': `${gridSlot.row}`}]"
-       @dragover="onDragOver"
-       @dragenter="onDragEnter"
-       @dragleave="onDragLeave"
-       @drop.prevent="onDrop">
+                {'grid-row-start': `${gridSlot.row}`}]">
     <div v-show="isCardPromptVisible"
          class="absolute pointer-events-none h-gridCard w-gridCard bg-cardPrompt rounded-lg"
          :class="[{'transform translate-y-gridTranslateBottom': isBottom},
