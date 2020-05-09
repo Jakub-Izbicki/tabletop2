@@ -19,7 +19,6 @@
         {{card.name}}
       </div>
     </Moveable>
-
   </div>
 </template>
 
@@ -30,7 +29,7 @@
   export default {
     name: "GridCard",
     components: {Moveable},
-    props: ['card'],
+    props: ['cardId'],
     data() {
       return {
         moveable: {
@@ -40,11 +39,17 @@
         }
       }
     },
+    beforeDestroy() {
+      this.$store.dispatch('resetDrag');
+    },
     computed: {
       ...mapGetters(['isTableCardDrag']),
       ...createNamespacedHelpers('gameTable').mapGetters([
-        'cols', 'rows', 'draggedCardId',
+        'cols', 'rows', 'draggedCardId', 'gridCards',
       ]),
+      card() {
+        return this.gridCards.find(card => card.id === this.cardId);
+      },
       isBottom() {
         return this.card.row === this.rows;
       },
@@ -70,7 +75,6 @@
       },
       onDragEnd({target}) {
         target.style.transform = null;
-        this.$store.dispatch('resetDrag');
       },
     }
   }

@@ -56,8 +56,12 @@
         }
       },
       onDrop() {
-        if (this.isTableCardDrag && this.isCardPromptVisible) {
+        if (this.isCardPromptVisible) {
           this.isCardPromptVisible = false;
+        }
+
+        if (this.isTableCardDrag) {
+          this.$store.dispatch('resetDrag');
           this.$store.dispatch('gameTable/moveCardToSlot', {
             slotId: this.gridSlot.id,
           });

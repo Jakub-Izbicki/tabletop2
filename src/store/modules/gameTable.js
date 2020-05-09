@@ -58,8 +58,11 @@ export default {
     SET_DRAGGED_CARD(state, {cardId}) {
       state.draggedCardId = cardId;
     },
-    SETUP_GRID_SLOTS(state, {slots}) {
+    SET_GRID_SLOTS(state, {slots}) {
       state.gridSlots = slots;
+    },
+    REMOVE_CARD_FROM_TABLE(state, {cardId}) {
+      state.gridCards = state.gridCards.filter(card => card.id !== cardId);
     },
   },
   actions: {
@@ -73,8 +76,11 @@ export default {
     setDraggedCardId({commit}, {cardId}) {
       commit('SET_DRAGGED_CARD', {cardId});
     },
-    setupGridSlots({commit}, {slots}) {
-      commit('SETUP_GRID_SLOTS', {slots});
+    setGridSlots({commit}, {slots}) {
+      commit('SET_GRID_SLOTS', {slots});
+    },
+    removeCardFromTable({commit}, {cardId}) {
+      commit('REMOVE_CARD_FROM_TABLE', {cardId});
     },
   },
 }

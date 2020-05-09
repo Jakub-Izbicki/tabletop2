@@ -1,17 +1,19 @@
 <template>
-  <div class="flex flex-col">
-    <div class="grid text-vw border"
-         :style="{'grid-template-columns': `5em repeat(${cols - 2}, minmax(0, 1fr)) 5em`}">
-      <GridSlot v-for="slot in gridSlots"
-                :key="slot.id"
-                :grid-slot="slot">
-      </GridSlot>
-
-      <GridCard v-for="card in gridCards"
-                :key="card.id"
-                :card="card">
-      </GridCard>
+  <div>
+    <div class="flex flex-col">
+      <div class="grid text-vw border"
+           :style="{'grid-template-columns': `5em repeat(${cols - 2}, minmax(0, 1fr)) 5em`}">
+        <GridSlot v-for="slot in gridSlots"
+                  :key="slot.id"
+                  :grid-slot="slot">
+        </GridSlot>
+        <GridCard v-for="card in gridCards"
+                  :key="card.id"
+                  :cardId="card.id">
+        </GridCard>
+      </div>
     </div>
+    <Hand></Hand>
   </div>
 </template>
 
@@ -19,21 +21,19 @@
   import {createNamespacedHelpers} from "vuex";
   import GridSlot from "./GridSlot";
   import GridCard from "./GridCard";
+  import Hand from "./hand/Hand";
 
   export default {
     name: "Table",
-    components: {GridCard, GridSlot},
+    components: {Hand, GridCard, GridSlot},
     data() {
       return {
         dragHoveredSlotId: null,
       }
     },
     computed: {
-      ...createNamespacedHelpers('gameTable').mapState({
-        gridCards: state => state.gridCards,
-      }),
       ...createNamespacedHelpers('gameTable').mapGetters([
-        'cols', 'rows', 'gridSlots',
+        'cols', 'rows', 'gridSlots', 'gridCards',
       ]),
     },
     created() {
@@ -50,7 +50,7 @@
         })
       });
 
-      this.$store.dispatch('gameTable/setupGridSlots', {slots});
+      this.$store.dispatch('gameTable/setGridSlots', {slots});
     },
   }
 </script>
