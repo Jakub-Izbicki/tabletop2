@@ -3,15 +3,17 @@
        :class="[{'transform translate-y-gridTranslateBottom': isBottom},
                 {'transform translate-y-gridTranslateTop': isTop},
                 {'transform translate-x-gridTranslateLeft': isLeft},
-                {'transform translate-x-gridTranslateRight': isRight}]"
+                {'transform translate-x-gridTranslateRight': isRight},
+                {'pointer-events-none': isTableCardDrag && draggedCardId === card.id}]"
        :style="[{'grid-column-start': `${card.col}`},
                 {'grid-row-start': `${card.row}`}]">
 
     <Moveable class="moveable absolute h-gridCard w-gridCard bg-cardPlaceholder rounded-card"
-              :class="{'pointer-events-none': isTableCardDrag && draggedCardId === card.id}"
+              :class="{'pointer-events-none': isTableCardDrag}"
+              ref="moveable"
               v-bind="moveable"
-              @drag="handleDrag"
               @dragStart="onDragStart"
+              @drag="handleDrag"
               @dragEnd="onDragEnd">
       <div class="text-base">
         {{card.name}}
@@ -34,15 +36,7 @@
         moveable: {
           draggable: true,
           throttleDrag: 0,
-          resizable: false,
-          throttleResize: 1,
-          keepRatio: false,
-          scalable: true,
-          throttleScale: 0,
-          rotatable: true,
-          throttleRotate: 0,
-          pinchable: true, // ["draggable", "resizable", "scalable", "rotatable"]
-          origin: false,
+          renderDirections: [],
         }
       }
     },
@@ -74,7 +68,8 @@
         });
         this.$store.dispatch('setTableCardDrag');
       },
-      onDragEnd() {
+      onDragEnd({target}) {
+        target.style.transform = null;
         this.$store.dispatch('resetDrag');
       },
     }
@@ -82,5 +77,4 @@
 </script>
 
 <style scoped>
-
 </style>

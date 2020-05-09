@@ -12,7 +12,6 @@
                 :card="card">
       </GridCard>
     </div>
-    <AnimatedCard></AnimatedCard>
   </div>
 </template>
 
@@ -20,11 +19,10 @@
   import {createNamespacedHelpers} from "vuex";
   import GridSlot from "./GridSlot";
   import GridCard from "./GridCard";
-  import AnimatedCard from "./AnimatedCard";
 
   export default {
     name: "Table",
-    components: {AnimatedCard, GridCard, GridSlot},
+    components: {GridCard, GridSlot},
     data() {
       return {
         dragHoveredSlotId: null,

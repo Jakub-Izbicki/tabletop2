@@ -26,7 +26,6 @@ export default {
       },
     ],
     gridSlots: [],
-    animatedCardVisible: false,
   },
   getters: {
     cols(state) {
@@ -44,9 +43,6 @@ export default {
     draggedCardId(state) {
       return state.draggedCardId;
     },
-    animatedCardVisible(state) {
-      return state.animatedCardVisible;
-    }
   },
   mutations: {
     MOVE_CARD_TO_SLOT(state, {cardId, slotId, gridSlots}) {
@@ -65,12 +61,6 @@ export default {
     SETUP_GRID_SLOTS(state, {slots}) {
       state.gridSlots = slots;
     },
-    SHOW_ANIMATED_CARD(state) {
-      state.animatedCardVisible = true;
-    },
-    HIDE_ANIMATED_CARD(state) {
-      state.animatedCardVisible = false;
-    }
   },
   actions: {
     moveCardToSlot({commit, getters}, {slotId}) {
@@ -86,11 +76,5 @@ export default {
     setupGridSlots({commit}, {slots}) {
       commit('SETUP_GRID_SLOTS', {slots});
     },
-    showAnimatedCard({commit}) {
-      commit('SHOW_ANIMATED_CARD');
-    },
-    hideAnimatedCard({commit}) {
-      commit('HIDE_ANIMATED_CARD');
-    }
   },
 }

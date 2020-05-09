@@ -2,7 +2,10 @@
   <div class="flex items-center justify-center h-gridSlot"
        :class="{'h-gridSlotEdge': isHorizontalBorder}"
        :style="[{'grid-column-start': `${gridSlot.col}`},
-                {'grid-row-start': `${gridSlot.row}`}]">
+                {'grid-row-start': `${gridSlot.row}`}]"
+       @mouseover="onDragOver"
+       @mouseup="onDrop"
+       @mouseleave="onDragLeave">
     <div v-show="isCardPromptVisible"
          class="absolute pointer-events-none h-gridCard w-gridCard bg-cardPrompt rounded-lg"
          :class="[{'transform translate-y-gridTranslateBottom': isBottom},
@@ -47,24 +50,23 @@
       },
     },
     methods: {
-      onDragOver(event) {
-        if (this.isTableCardDrag) {
-          event.preventDefault();
-        }
-      },
-      onDragEnter() {
-        if (this.isTableCardDrag) {
+      onDragOver() {
+        if (this.isTableCardDrag && !this.isCardPromptVisible) {
           this.isCardPromptVisible = true;
         }
       },
-      onDragLeave() {
-        this.isCardPromptVisible = false;
-      },
       onDrop() {
-        this.isCardPromptVisible = false;
-        this.$store.dispatch('gameTable/moveCardToSlot', {
-          slotId: this.gridSlot.id,
-        });
+        if (this.isTableCardDrag && this.isCardPromptVisible) {
+          this.isCardPromptVisible = false;
+          this.$store.dispatch('gameTable/moveCardToSlot', {
+            slotId: this.gridSlot.id,
+          });
+        }
+      },
+      onDragLeave() {
+        if (this.isCardPromptVisible) {
+          this.isCardPromptVisible = false;
+        }
       },
     }
   }
