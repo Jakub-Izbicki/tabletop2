@@ -19,8 +19,8 @@
 
 <script>
   import {createNamespacedHelpers} from "vuex";
-  import GridSlot from "./GridSlot";
-  import GridCard from "./GridCard";
+  import GridSlot from "./grid/GridSlot";
+  import GridCard from "./grid/GridCard";
   import Hand from "./hand/Hand";
 
   export default {
