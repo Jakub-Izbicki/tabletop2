@@ -1,9 +1,13 @@
 export default {
   namespaced: true,
   state: {
+    draggedCardId: null,
     dragState: null,
   },
   getters: {
+    draggedCardId(state) {
+      return state.draggedCardId;
+    },
     isCardDrag(state) {
       return state.dragState === 'GRID_CARD'
           || state.dragState === 'HAND_CARD';
@@ -16,6 +20,9 @@ export default {
     }
   },
   mutations: {
+    SET_DRAGGED_CARD(state, {cardId}) {
+      state.draggedCardId = cardId;
+    },
     RESET_DRAG(state) {
       state.dragState = null;
     },
@@ -27,6 +34,9 @@ export default {
     },
   },
   actions: {
+    setDraggedCardId({commit}, {cardId}) {
+      commit('SET_DRAGGED_CARD', {cardId});
+    },
     resetDrag({commit}) {
       commit('RESET_DRAG');
     },

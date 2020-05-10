@@ -43,9 +43,12 @@
       this.$store.dispatch('game/resetDrag');
     },
     computed: {
-      ...createNamespacedHelpers('game').mapGetters(['isCardDrag',]),
+      ...createNamespacedHelpers('game').mapGetters([
+        'isCardDrag',
+        'draggedCardId',
+      ]),
       ...createNamespacedHelpers('grid').mapGetters([
-        'cols', 'rows', 'draggedCardId', 'gridCards',
+        'cols', 'rows', 'gridCards',
       ]),
       card() {
         return this.gridCards.find(card => card.id === this.cardId);
@@ -65,7 +68,7 @@
     },
     methods: {
       onDragStart() {
-        this.$store.dispatch('grid/setDraggedCardId', {
+        this.$store.dispatch('game/setDraggedCardId', {
           cardId: this.card.id
         });
         this.$store.dispatch('game/setGridCardDrag');

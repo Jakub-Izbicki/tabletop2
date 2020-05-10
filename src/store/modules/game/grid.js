@@ -3,7 +3,6 @@ export default {
   state: {
     cols: 35,
     rows: 15,
-    draggedCardId: null,
     gridCards: [
       {
         id: '1',
@@ -39,9 +38,6 @@ export default {
     gridSlots(state) {
       return state.gridSlots;
     },
-    draggedCardId(state) {
-      return state.draggedCardId;
-    },
   },
   mutations: {
     MOVE_CARD_TO_SLOT(state, {cardId, slotId, gridSlots}) {
@@ -54,9 +50,6 @@ export default {
         return card;
       })
     },
-    SET_DRAGGED_CARD(state, {cardId}) {
-      state.draggedCardId = cardId;
-    },
     SET_GRID_SLOTS(state, {slots}) {
       state.gridSlots = slots;
     },
@@ -68,15 +61,12 @@ export default {
     },
   },
   actions: {
-    moveCardToSlot({commit, getters}, {slotId}) {
+    moveCardToSlot({commit, getters, rootGetters}, {slotId}) {
       commit('MOVE_CARD_TO_SLOT', {
-        cardId: getters.draggedCardId,
+        cardId: rootGetters['game/draggedCardId'],
         slotId,
         gridSlots: getters.gridSlots,
       });
-    },
-    setDraggedCardId({commit}, {cardId}) {
-      commit('SET_DRAGGED_CARD', {cardId});
     },
     setGridSlots({commit}, {slots}) {
       commit('SET_GRID_SLOTS', {slots});
@@ -86,7 +76,7 @@ export default {
     },
     addCardToGridFromHand({commit, dispatch, rootGetters}, {col, row}) {
       const card = rootGetters['hand/handCards'].find(
-          card => card.id === rootGetters['grid/draggedCardId']);
+          card => card.id === rootGetters['game/draggedCardId']);
 
       commit('ADD_CARD_TO_GRID_FROM_HAND', {card, col, row});
       dispatch('hand/removeCard', {cardId: card.id},

@@ -30,8 +30,10 @@
       }
     },
     computed: {
-      ...createNamespacedHelpers('game').mapGetters(['isCardDrag',]),
-      ...createNamespacedHelpers('grid').mapGetters(['draggedCardId',]),
+      ...createNamespacedHelpers('game').mapGetters([
+        'isCardDrag',
+        'draggedCardId',
+      ]),
       ...createNamespacedHelpers('hand').mapGetters(['handCards',]),
       card() {
         return this.handCards.find(card => card.id === this.cardId);
@@ -42,7 +44,7 @@
         target.style.transform = transform;
       },
       onDragStart() {
-        this.$store.dispatch('grid/setDraggedCardId', {
+        this.$store.dispatch('game/setDraggedCardId', {
           cardId: this.card.id
         });
         this.$store.dispatch('game/setHandCardDrag');
