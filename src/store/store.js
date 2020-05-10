@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import grid from "./modules/grid";
-import hand from "./modules/hand";
+import grid from "./modules/game/grid";
+import hand from "./modules/game/hand";
 
 Vue.use(Vuex);
 
