@@ -33,6 +33,7 @@
         'isCardDrag',
         'isGridCardDrag',
         'isHandCardDrag',
+        'isLibraryCardDrag',
       ]),
       ...createNamespacedHelpers('grid').mapGetters([
         'cols', 'rows',
@@ -72,6 +73,12 @@
         } else if (this.isHandCardDrag) {
           this.$store.dispatch('game/resetDrag');
           this.$store.dispatch('grid/addCardToGridFromHand', {
+            col: this.gridSlot.col,
+            row: this.gridSlot.row,
+          });
+        } else if (this.isLibraryCardDrag) {
+          this.$store.dispatch('game/resetDrag');
+          this.$store.dispatch('grid/addCardToGridFromLibrary', {
             col: this.gridSlot.col,
             row: this.gridSlot.row,
           });

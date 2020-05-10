@@ -45,10 +45,10 @@
         target.style.transform = transform;
       },
       onDragStart() {
-        // this.$store.dispatch('game/setDraggedCardId', {
-        //   cardId: this.card.id
-        // });
-        // this.$store.dispatch('game/setHandCardDrag');
+        this.$store.dispatch('game/setDraggedCardId', {
+          cardId: this.card.id
+        });
+        this.$store.dispatch('game/setLibraryCardDrag');
       },
       onDragEnd({target}) {
         target.style.transform = null;

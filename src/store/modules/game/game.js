@@ -10,14 +10,18 @@ export default {
     },
     isCardDrag(state) {
       return state.dragState === 'GRID_CARD'
-          || state.dragState === 'HAND_CARD';
+          || state.dragState === 'HAND_CARD'
+          || state.dragState === 'LIBRARY_CARD';
     },
     isGridCardDrag(state) {
       return state.dragState === 'GRID_CARD';
     },
     isHandCardDrag(state) {
       return state.dragState === 'HAND_CARD';
-    }
+    },
+    isLibraryCardDrag(state) {
+      return state.dragState === 'LIBRARY_CARD';
+    },
   },
   mutations: {
     SET_DRAGGED_CARD(state, {cardId}) {
@@ -32,6 +36,9 @@ export default {
     SET_HAND_CARD_DRAG(state) {
       state.dragState = 'HAND_CARD';
     },
+    SET_LIBRARY_CARD_DRAG(state) {
+      state.dragState = 'LIBRARY_CARD';
+    },
   },
   actions: {
     setDraggedCardId({commit}, {cardId}) {
@@ -45,6 +52,9 @@ export default {
     },
     setHandCardDrag({commit}) {
       commit('SET_HAND_CARD_DRAG');
+    },
+    setLibraryCardDrag({commit}) {
+      commit('SET_LIBRARY_CARD_DRAG');
     }
   }
 }

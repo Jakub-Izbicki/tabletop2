@@ -17,6 +17,15 @@ export default {
       return state.libraryCards;
     }
   },
-  mutations: {},
-  actions: {},
+  mutations: {
+    REMOVE_CARD(state, {cardId}) {
+      state.libraryCards = state.libraryCards
+      .filter(card => card.id !== cardId);
+    },
+  },
+  actions: {
+    removeCard({commit}, {cardId}) {
+      commit('REMOVE_CARD', {cardId});
+    },
+  },
 }
