@@ -27,7 +27,7 @@
       ...createNamespacedHelpers('game').mapGetters([
         'isCardDrag',
         'isGridCardDrag',
-        'isHandCardDrag',
+        'isLibraryCardDrag',
       ]),
       ...createNamespacedHelpers('hand').mapState({
         handCards: state => state.handCards,
@@ -40,10 +40,14 @@
         }
       },
       onDrop() {
+        this.isDragOver = false;
+
         if (this.isGridCardDrag) {
-          this.$store.dispatch('hand/addCardToHandFromGrid');
           this.$store.dispatch('game/resetDrag');
-          this.isDragOver = false;
+          this.$store.dispatch('hand/addCardToHandFromGrid');
+        } else if (this.isLibraryCardDrag) {
+          this.$store.dispatch('game/resetDrag');
+          this.$store.dispatch('hand/addCardToHandFromLibrary');
         }
       },
       onDragLeave() {
