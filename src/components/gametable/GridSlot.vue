@@ -29,7 +29,11 @@
       }
     },
     computed: {
-      ...mapGetters(['isGridCardDrag']),
+      ...mapGetters([
+        'isCardDrag',
+        'isGridCardDrag',
+        'isHandCardDrag'
+      ]),
       ...createNamespacedHelpers('gameTable').mapGetters([
         'cols', 'rows',
       ]),
@@ -51,7 +55,7 @@
     },
     methods: {
       onDragOver() {
-        if (this.isGridCardDrag && !this.isCardPromptVisible) {
+        if (this.isCardDrag && !this.isCardPromptVisible) {
           this.isCardPromptVisible = true;
         }
       },
@@ -64,6 +68,12 @@
           this.$store.dispatch('resetDrag');
           this.$store.dispatch('gameTable/moveCardToSlot', {
             slotId: this.gridSlot.id,
+          });
+        } else if (this.isHandCardDrag) {
+          this.$store.dispatch('resetDrag');
+          this.$store.dispatch('gameTable/addCardToGridFromHand', {
+            col: this.gridSlot.col,
+            row: this.gridSlot.row,
           });
         }
       },

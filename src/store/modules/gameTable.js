@@ -64,6 +64,9 @@ export default {
     REMOVE_CARD_FROM_TABLE(state, {cardId}) {
       state.gridCards = state.gridCards.filter(card => card.id !== cardId);
     },
+    ADD_CARD_TO_GRID_FROM_HAND(state, {card, col, row}) {
+      state.gridCards = [...state.gridCards, {...card, col, row}];
+    },
   },
   actions: {
     moveCardToSlot({commit, getters}, {slotId}) {
@@ -81,6 +84,14 @@ export default {
     },
     removeCardFromTable({commit}, {cardId}) {
       commit('REMOVE_CARD_FROM_TABLE', {cardId});
+    },
+    addCardToGridFromHand({commit, dispatch, rootGetters}, {col, row}) {
+      const card = rootGetters['hand/handCards'].find(
+          card => card.id === rootGetters['gameTable/draggedCardId']);
+
+      commit('ADD_CARD_TO_GRID_FROM_HAND', {card, col, row});
+      dispatch('hand/removeCard', {cardId: card.id},
+          {root: true});
     },
   },
 }

@@ -33,7 +33,7 @@ export default new Vuex.Store({
       state.dragState = 'GRID_CARD';
     },
     SET_HAND_CARD_DRAG(state) {
-      state.dragState = 'GRID_CARD';
+      state.dragState = 'HAND_CARD';
     },
   },
   actions: {

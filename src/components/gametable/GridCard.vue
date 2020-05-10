@@ -4,12 +4,12 @@
                 {'transform translate-y-gridTranslateTop': isTop},
                 {'transform translate-x-gridTranslateLeft': isLeft},
                 {'transform translate-x-gridTranslateRight': isRight},
-                {'pointer-events-none': isGridCardDrag && draggedCardId === card.id}]"
+                {'pointer-events-none': isCardDrag && draggedCardId === card.id}]"
        :style="[{'grid-column-start': `${card.col}`},
                 {'grid-row-start': `${card.row}`}]">
 
     <Moveable class="moveable absolute h-gridCard w-gridCard bg-cardPlaceholder rounded-card"
-              :class="{'pointer-events-none': isGridCardDrag}"
+              :class="{'pointer-events-none': isCardDrag}"
               ref="moveable"
               v-bind="moveable"
               @dragStart="onDragStart"
@@ -43,7 +43,7 @@
       this.$store.dispatch('resetDrag');
     },
     computed: {
-      ...mapGetters(['isGridCardDrag']),
+      ...mapGetters(['isCardDrag']),
       ...createNamespacedHelpers('gameTable').mapGetters([
         'cols', 'rows', 'draggedCardId', 'gridCards',
       ]),

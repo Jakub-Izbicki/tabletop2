@@ -40,7 +40,7 @@
       },
       onDrop() {
         if (this.isGridCardDrag) {
-          this.$store.dispatch('hand/addCardToHandFromTable');
+          this.$store.dispatch('hand/addCardToHandFromGrid');
           this.$store.dispatch('resetDrag');
         }
       },

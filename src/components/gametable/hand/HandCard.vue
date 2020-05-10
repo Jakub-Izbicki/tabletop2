@@ -45,8 +45,13 @@
         target.style.transform = transform;
       },
       onDragStart() {
+        this.$store.dispatch('gameTable/setDraggedCardId', {
+          cardId: this.card.id
+        });
+        this.$store.dispatch('setHandCardDrag');
       },
-      onDragEnd() {
+      onDragEnd({target}) {
+        target.style.transform = null;
         this.$store.dispatch('resetDrag');
       },
     }
