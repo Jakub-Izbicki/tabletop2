@@ -47,6 +47,7 @@
       onDragStart() {
       },
       onDragEnd() {
+        this.$store.dispatch('resetDrag');
       },
     }
   }

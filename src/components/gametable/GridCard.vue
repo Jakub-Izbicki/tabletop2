@@ -75,6 +75,7 @@
       },
       onDragEnd({target}) {
         target.style.transform = null;
+        this.$store.dispatch('resetDrag');
       },
     }
   }
