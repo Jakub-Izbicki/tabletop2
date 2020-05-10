@@ -29,7 +29,7 @@
       }
     },
     computed: {
-      ...mapGetters(['isTableCardDrag']),
+      ...mapGetters(['isGridCardDrag']),
       ...createNamespacedHelpers('gameTable').mapGetters([
         'cols', 'rows',
       ]),
@@ -51,7 +51,7 @@
     },
     methods: {
       onDragOver() {
-        if (this.isTableCardDrag && !this.isCardPromptVisible) {
+        if (this.isGridCardDrag && !this.isCardPromptVisible) {
           this.isCardPromptVisible = true;
         }
       },
@@ -60,7 +60,7 @@
           this.isCardPromptVisible = false;
         }
 
-        if (this.isTableCardDrag) {
+        if (this.isGridCardDrag) {
           this.$store.dispatch('resetDrag');
           this.$store.dispatch('gameTable/moveCardToSlot', {
             slotId: this.gridSlot.id,

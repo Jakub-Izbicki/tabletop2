@@ -26,7 +26,7 @@
     computed: {
       ...mapGetters([
         'isCardDrag',
-        'isTableCardDrag',
+        'isGridCardDrag',
         'isHandCardDrag']),
       ...createNamespacedHelpers('hand').mapState({
         handCards: state => state.handCards,
@@ -39,7 +39,7 @@
         }
       },
       onDrop() {
-        if (this.isTableCardDrag) {
+        if (this.isGridCardDrag) {
           this.$store.dispatch('hand/addCardToHandFromTable');
           this.$store.dispatch('resetDrag');
         }

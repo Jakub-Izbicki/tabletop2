@@ -15,11 +15,11 @@ export default new Vuex.Store({
   },
   getters: {
     isCardDrag(state) {
-      return state.dragState === 'TABLE_CARD'
+      return state.dragState === 'GRID_CARD'
           || state.dragState === 'HAND_CARD';
     },
-    isTableCardDrag(state) {
-      return state.dragState === 'TABLE_CARD';
+    isGridCardDrag(state) {
+      return state.dragState === 'GRID_CARD';
     },
     isHandCardDrag(state) {
       return state.dragState === 'HAND_CARD';
@@ -29,19 +29,19 @@ export default new Vuex.Store({
     RESET_DRAG(state) {
       state.dragState = null;
     },
-    SET_TABLE_CARD_DRAG(state) {
-      state.dragState = 'TABLE_CARD';
+    SET_GRID_CARD_DRAG(state) {
+      state.dragState = 'GRID_CARD';
     },
     SET_HAND_CARD_DRAG(state) {
-      state.dragState = 'TABLE_CARD';
+      state.dragState = 'GRID_CARD';
     },
   },
   actions: {
     resetDrag({commit}) {
       commit('RESET_DRAG');
     },
-    setTableCardDrag({commit}) {
-      commit('SET_TABLE_CARD_DRAG');
+    setGridCardDrag({commit}) {
+      commit('SET_GRID_CARD_DRAG');
     },
     setHandCardDrag({commit}) {
       commit('SET_HAND_CARD_DRAG');
