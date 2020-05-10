@@ -1,18 +1,15 @@
 <template>
-  <div class="flex items-center justify-center"
-       :class="{'pointer-events-none': isCardDrag && draggedCardId === card.id}">
-
-    <Moveable class="moveable absolute h-gridCard w-gridCard bg-cardPlaceholder rounded-card"
-              ref="moveable"
-              v-bind="moveable"
-              @dragStart="onDragStart"
-              @drag="handleDrag"
-              @dragEnd="onDragEnd">
-      <div class="text-base">
-        {{card.name}}
-      </div>
-    </Moveable>
-  </div>
+  <Moveable class="moveable absolsaute h-gridCard w-gridCard bg-cardPlaceholder rounded-card"
+            :class="{'pointer-events-none': isCardDrag && draggedCardId === card.id}"
+            ref="moveable"
+            v-bind="moveable"
+            @dragStart="onDragStart"
+            @drag="handleDrag"
+            @dragEnd="onDragEnd">
+    <div class="text-base">
+      {{card.name}}
+    </div>
+  </Moveable>
 </template>
 
 <script>
