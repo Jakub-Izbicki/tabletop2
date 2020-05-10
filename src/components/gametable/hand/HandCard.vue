@@ -40,14 +40,14 @@
       },
     },
     methods: {
-      onDrag({target, transform}) {
-        target.style.transform = transform;
-      },
       onDragStart() {
         this.$store.dispatch('game/setDraggedCardId', {
           cardId: this.card.id
         });
         this.$store.dispatch('game/setHandCardDrag');
+      },
+      onDrag({target, transform}) {
+        target.style.transform = transform;
       },
       onDragEnd({target}) {
         target.style.transform = null;

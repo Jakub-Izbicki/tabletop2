@@ -51,9 +51,7 @@
         }
       },
       onDragLeave() {
-        if (this.isDragOver) {
-          this.isDragOver = false;
-        }
+        this.isDragOver = false;
       }
     }
   }
