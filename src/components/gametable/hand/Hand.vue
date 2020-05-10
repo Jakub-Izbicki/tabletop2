@@ -1,5 +1,5 @@
 <template>
-  <div class="flex text-vw border h-gridCard"
+  <div class="flex justify-center text-vw border h-gridCard"
        :class="{'bg-cardPrompt': isDragOver}"
        @mouseover="onDragOver"
        @mouseup="onDrop"
