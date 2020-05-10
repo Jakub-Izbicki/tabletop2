@@ -12,7 +12,7 @@
 </template>
 
 <script>
-  import {createNamespacedHelpers, mapGetters} from "vuex";
+  import {createNamespacedHelpers} from "vuex";
   import HandCard from "./HandCard";
 
   export default {
@@ -24,10 +24,11 @@
       }
     },
     computed: {
-      ...mapGetters([
+      ...createNamespacedHelpers('game').mapGetters([
         'isCardDrag',
         'isGridCardDrag',
-        'isHandCardDrag']),
+        'isHandCardDrag',
+      ]),
       ...createNamespacedHelpers('hand').mapState({
         handCards: state => state.handCards,
       }),
@@ -41,7 +42,7 @@
       onDrop() {
         if (this.isGridCardDrag) {
           this.$store.dispatch('hand/addCardToHandFromGrid');
-          this.$store.dispatch('resetDrag');
+          this.$store.dispatch('game/resetDrag');
         }
       },
       onDragLeave() {

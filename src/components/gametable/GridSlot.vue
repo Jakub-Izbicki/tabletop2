@@ -18,7 +18,7 @@
 </template>
 
 <script>
-  import {createNamespacedHelpers, mapGetters} from "vuex";
+  import {createNamespacedHelpers} from "vuex";
 
   export default {
     name: "GridSlot",
@@ -29,10 +29,10 @@
       }
     },
     computed: {
-      ...mapGetters([
+      ...createNamespacedHelpers('game').mapGetters([
         'isCardDrag',
         'isGridCardDrag',
-        'isHandCardDrag'
+        'isHandCardDrag',
       ]),
       ...createNamespacedHelpers('grid').mapGetters([
         'cols', 'rows',
@@ -65,12 +65,12 @@
         }
 
         if (this.isGridCardDrag) {
-          this.$store.dispatch('resetDrag');
+          this.$store.dispatch('game/resetDrag');
           this.$store.dispatch('grid/moveCardToSlot', {
             slotId: this.gridSlot.id,
           });
         } else if (this.isHandCardDrag) {
-          this.$store.dispatch('resetDrag');
+          this.$store.dispatch('game/resetDrag');
           this.$store.dispatch('grid/addCardToGridFromHand', {
             col: this.gridSlot.col,
             row: this.gridSlot.row,

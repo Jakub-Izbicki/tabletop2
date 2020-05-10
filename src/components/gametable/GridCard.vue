@@ -23,7 +23,7 @@
 </template>
 
 <script>
-  import {mapGetters, createNamespacedHelpers} from "vuex";
+  import {createNamespacedHelpers} from "vuex";
   import Moveable from 'vue-moveable';
 
   export default {
@@ -40,10 +40,10 @@
       }
     },
     beforeDestroy() {
-      this.$store.dispatch('resetDrag');
+      this.$store.dispatch('game/resetDrag');
     },
     computed: {
-      ...mapGetters(['isCardDrag']),
+      ...createNamespacedHelpers('game').mapGetters(['isCardDrag',]),
       ...createNamespacedHelpers('grid').mapGetters([
         'cols', 'rows', 'draggedCardId', 'gridCards',
       ]),
@@ -71,11 +71,11 @@
         this.$store.dispatch('grid/setDraggedCardId', {
           cardId: this.card.id
         });
-        this.$store.dispatch('setGridCardDrag');
+        this.$store.dispatch('game/setGridCardDrag');
       },
       onDragEnd({target}) {
         target.style.transform = null;
-        this.$store.dispatch('resetDrag');
+        this.$store.dispatch('game/resetDrag');
       },
     }
   }

@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import game from "./modules/game/game";
 import grid from "./modules/game/grid";
 import hand from "./modules/game/hand";
 
@@ -7,44 +8,12 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   modules: {
+    game,
     grid,
     hand,
   },
-  state: {
-    dragState: null,
-  },
-  getters: {
-    isCardDrag(state) {
-      return state.dragState === 'GRID_CARD'
-          || state.dragState === 'HAND_CARD';
-    },
-    isGridCardDrag(state) {
-      return state.dragState === 'GRID_CARD';
-    },
-    isHandCardDrag(state) {
-      return state.dragState === 'HAND_CARD';
-    }
-  },
-  mutations: {
-    RESET_DRAG(state) {
-      state.dragState = null;
-    },
-    SET_GRID_CARD_DRAG(state) {
-      state.dragState = 'GRID_CARD';
-    },
-    SET_HAND_CARD_DRAG(state) {
-      state.dragState = 'HAND_CARD';
-    },
-  },
-  actions: {
-    resetDrag({commit}) {
-      commit('RESET_DRAG');
-    },
-    setGridCardDrag({commit}) {
-      commit('SET_GRID_CARD_DRAG');
-    },
-    setHandCardDrag({commit}) {
-      commit('SET_HAND_CARD_DRAG');
-    }
-  }
+  state: {},
+  getters: {},
+  mutations: {},
+  actions: {}
 })
