@@ -30,11 +30,6 @@
   export default {
     name: "Table",
     components: {Library, Hand, GridCard, GridSlot},
-    data() {
-      return {
-        dragHoveredSlotId: null,
-      }
-    },
     computed: {
       ...createNamespacedHelpers('grid').mapGetters([
         'cols', 'rows', 'gridSlots', 'gridCards',

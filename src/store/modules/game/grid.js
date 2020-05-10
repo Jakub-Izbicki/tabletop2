@@ -4,7 +4,6 @@ export default {
     cols: 35,
     rows: 15,
     draggedCardId: null,
-    dragHoveredSlotId: null,
     gridCards: [
       {
         id: '1',
