@@ -1,5 +1,5 @@
 <template>
-  <Moveable class="moveable h-gridCard w-gridCard bg-cardPlaceholder rounded-card mx-1"
+  <Moveable class="moveable h-gridCard w-gridCard bg-cardPlaceholder rounded-card"
             :class="{'pointer-events-none': isCardDrag && draggedCardId === card.id}"
             ref="moveable"
             v-bind="moveable"
@@ -8,6 +8,7 @@
             @dragEnd="onDragEnd">
     <div class="text-base">
       {{card.name}}
+      {{libraryCards.length}}
     </div>
   </Moveable>
 </template>
@@ -17,7 +18,7 @@
   import Moveable from 'vue-moveable';
 
   export default {
-    name: "HandCard",
+    name: "LibraryCard",
     components: {Moveable},
     props: ['cardId'],
     data() {
@@ -32,26 +33,26 @@
     computed: {
       ...createNamespacedHelpers('game').mapGetters(['isCardDrag',]),
       ...createNamespacedHelpers('grid').mapGetters(['draggedCardId',]),
-      ...createNamespacedHelpers('hand').mapGetters(['handCards',]),
+      ...createNamespacedHelpers('library').mapGetters(['libraryCards',]),
       card() {
-        return this.handCards.find(card => card.id === this.cardId);
-      },
+        return this.libraryCards.find(card => card.id === this.cardId);
+      }
     },
     methods: {
       onDrag({target, transform}) {
         target.style.transform = transform;
       },
       onDragStart() {
-        this.$store.dispatch('grid/setDraggedCardId', {
-          cardId: this.card.id
-        });
-        this.$store.dispatch('game/setHandCardDrag');
+        // this.$store.dispatch('grid/setDraggedCardId', {
+        //   cardId: this.card.id
+        // });
+        // this.$store.dispatch('game/setHandCardDrag');
       },
       onDragEnd({target}) {
         target.style.transform = null;
         this.$store.dispatch('game/resetDrag');
       },
-    }
+    },
   }
 </script>
 

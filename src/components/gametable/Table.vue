@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div class="text-vw">
     <div class="flex flex-col">
-      <div class="grid text-vw border"
+      <div class="grid border"
            :style="{'grid-template-columns': `5em repeat(${cols - 2}, minmax(0, 1fr)) 5em`}">
         <GridSlot v-for="slot in gridSlots"
                   :key="slot.id"
@@ -13,7 +13,10 @@
         </GridCard>
       </div>
     </div>
-    <Hand></Hand>
+    <div class="flex">
+      <Hand></Hand>
+      <Library></Library>
+    </div>
   </div>
 </template>
 
@@ -22,10 +25,11 @@
   import GridSlot from "./grid/GridSlot";
   import GridCard from "./grid/GridCard";
   import Hand from "./hand/Hand";
+  import Library from "./library/Library";
 
   export default {
     name: "Table",
-    components: {Hand, GridCard, GridSlot},
+    components: {Library, Hand, GridCard, GridSlot},
     data() {
       return {
         dragHoveredSlotId: null,

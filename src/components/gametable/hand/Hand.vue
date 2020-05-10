@@ -1,5 +1,5 @@
 <template>
-  <div class="flex justify-center text-vw border h-gridCard"
+  <div class="flex justify-center border h-gridCard w-full"
        :class="{'bg-cardPrompt': isDragOver}"
        @mouseover="onDragOver"
        @mouseup="onDrop"
@@ -43,6 +43,7 @@
         if (this.isGridCardDrag) {
           this.$store.dispatch('hand/addCardToHandFromGrid');
           this.$store.dispatch('game/resetDrag');
+          this.isDragOver = false;
         }
       },
       onDragLeave() {

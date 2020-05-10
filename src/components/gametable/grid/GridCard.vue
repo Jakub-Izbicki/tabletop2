@@ -13,7 +13,7 @@
               ref="moveable"
               v-bind="moveable"
               @dragStart="onDragStart"
-              @drag="handleDrag"
+              @drag="onDrag"
               @dragEnd="onDragEnd">
       <div class="text-base">
         {{card.name}}
@@ -64,14 +64,14 @@
       },
     },
     methods: {
-      handleDrag({target, transform}) {
-        target.style.transform = transform;
-      },
       onDragStart() {
         this.$store.dispatch('grid/setDraggedCardId', {
           cardId: this.card.id
         });
         this.$store.dispatch('game/setGridCardDrag');
+      },
+      onDrag({target, transform}) {
+        target.style.transform = transform;
       },
       onDragEnd({target}) {
         target.style.transform = null;
