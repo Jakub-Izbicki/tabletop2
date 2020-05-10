@@ -1,10 +1,10 @@
 <template>
   <div class="border h-gridCard w-gridCard">
+    <LibraryCard v-if="libraryCards.length > 0"
+                 :cardId="libraryCards[0].id"></LibraryCard>
     <div v-if="libraryCards.length > 1"
          class="flex items-center justify-center h-gridCard w-gridCard bg-cardPlaceholder rounded-card">
     </div>
-    <LibraryCard v-if="libraryCards.length > 0"
-                 :cardId="libraryCards[0].id"></LibraryCard>
   </div>
 </template>
 

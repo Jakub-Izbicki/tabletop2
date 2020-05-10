@@ -1,5 +1,5 @@
 <template>
-  <Moveable class="moveable h-gridCard w-gridCard bg-cardPlaceholder rounded-card"
+  <Moveable class="moveable absolute h-gridCard w-gridCard bg-cardPlaceholder rounded-card"
             :class="{'pointer-events-none': isCardDrag && draggedCardId === card.id}"
             ref="moveable"
             v-bind="moveable"
@@ -7,8 +7,8 @@
             @drag="onDrag"
             @dragEnd="onDragEnd">
     <div class="text-base">
-      {{card.name}}
-      {{libraryCards.length}}
+      <p>{{card.name}}</p>
+      <p>{{libraryCards.length}}</p>
     </div>
   </Moveable>
 </template>
