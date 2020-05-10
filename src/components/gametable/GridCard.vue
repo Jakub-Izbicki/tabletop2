@@ -44,7 +44,7 @@
     },
     computed: {
       ...mapGetters(['isCardDrag']),
-      ...createNamespacedHelpers('gameTable').mapGetters([
+      ...createNamespacedHelpers('grid').mapGetters([
         'cols', 'rows', 'draggedCardId', 'gridCards',
       ]),
       card() {
@@ -68,7 +68,7 @@
         target.style.transform = transform;
       },
       onDragStart() {
-        this.$store.dispatch('gameTable/setDraggedCardId', {
+        this.$store.dispatch('grid/setDraggedCardId', {
           cardId: this.card.id
         });
         this.$store.dispatch('setGridCardDrag');

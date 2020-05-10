@@ -1,13 +1,13 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import gameTable from "./modules/gameTable";
+import grid from "./modules/grid";
 import hand from "./modules/hand";
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   modules: {
-    gameTable,
+    grid,
     hand,
   },
   state: {

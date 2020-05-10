@@ -18,11 +18,11 @@ export default {
   },
   actions: {
     addCardToHandFromGrid({commit, dispatch, rootGetters}) {
-      const card = rootGetters['gameTable/gridCards'].find(
-          card => card.id === rootGetters['gameTable/draggedCardId']);
+      const card = rootGetters['grid/gridCards'].find(
+          card => card.id === rootGetters['grid/draggedCardId']);
 
       commit('ADD_CARD_TO_HAND_FROM_TABLE', {card});
-      dispatch('gameTable/removeCardFromTable', {cardId: card.id},
+      dispatch('grid/removeCardFromGrid', {cardId: card.id},
           {root: true});
     },
     removeCard({commit}, {cardId}) {

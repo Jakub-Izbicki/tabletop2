@@ -34,7 +34,7 @@
         'isGridCardDrag',
         'isHandCardDrag'
       ]),
-      ...createNamespacedHelpers('gameTable').mapGetters([
+      ...createNamespacedHelpers('grid').mapGetters([
         'cols', 'rows',
       ]),
       isHorizontalBorder() {
@@ -66,12 +66,12 @@
 
         if (this.isGridCardDrag) {
           this.$store.dispatch('resetDrag');
-          this.$store.dispatch('gameTable/moveCardToSlot', {
+          this.$store.dispatch('grid/moveCardToSlot', {
             slotId: this.gridSlot.id,
           });
         } else if (this.isHandCardDrag) {
           this.$store.dispatch('resetDrag');
-          this.$store.dispatch('gameTable/addCardToGridFromHand', {
+          this.$store.dispatch('grid/addCardToGridFromHand', {
             col: this.gridSlot.col,
             row: this.gridSlot.row,
           });

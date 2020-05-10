@@ -61,7 +61,7 @@ export default {
     SET_GRID_SLOTS(state, {slots}) {
       state.gridSlots = slots;
     },
-    REMOVE_CARD_FROM_TABLE(state, {cardId}) {
+    REMOVE_CARD_FROM_GRID(state, {cardId}) {
       state.gridCards = state.gridCards.filter(card => card.id !== cardId);
     },
     ADD_CARD_TO_GRID_FROM_HAND(state, {card, col, row}) {
@@ -82,12 +82,12 @@ export default {
     setGridSlots({commit}, {slots}) {
       commit('SET_GRID_SLOTS', {slots});
     },
-    removeCardFromTable({commit}, {cardId}) {
-      commit('REMOVE_CARD_FROM_TABLE', {cardId});
+    removeCardFromGrid({commit}, {cardId}) {
+      commit('REMOVE_CARD_FROM_GRID', {cardId});
     },
     addCardToGridFromHand({commit, dispatch, rootGetters}, {col, row}) {
       const card = rootGetters['hand/handCards'].find(
-          card => card.id === rootGetters['gameTable/draggedCardId']);
+          card => card.id === rootGetters['grid/draggedCardId']);
 
       commit('ADD_CARD_TO_GRID_FROM_HAND', {card, col, row});
       dispatch('hand/removeCard', {cardId: card.id},

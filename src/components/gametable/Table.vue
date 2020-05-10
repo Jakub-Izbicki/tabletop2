@@ -32,7 +32,7 @@
       }
     },
     computed: {
-      ...createNamespacedHelpers('gameTable').mapGetters([
+      ...createNamespacedHelpers('grid').mapGetters([
         'cols', 'rows', 'gridSlots', 'gridCards',
       ]),
     },
@@ -50,7 +50,7 @@
         })
       });
 
-      this.$store.dispatch('gameTable/setGridSlots', {slots});
+      this.$store.dispatch('grid/setGridSlots', {slots});
     },
   }
 </script>
