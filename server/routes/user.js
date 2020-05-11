@@ -75,7 +75,7 @@ router.post(
         );
       } catch (err) {
         console.log(err.message);
-        res.status(500).send("Error in Saving");
+        res.status(500).send("Error during user signup");
       }
     }
 );
@@ -103,14 +103,14 @@ router.post(
           email
         });
         if (!user)
-          return res.status(400).json({
-            message: "User Not Exist"
+          return res.status(401).json({
+            message: "User does not exist or incorrect credentials"
           });
 
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch)
-          return res.status(400).json({
-            message: "Incorrect Password !"
+          return res.status(401).json({
+            message: "User does not exist or incorrect credentials"
           });
 
         const payload = {
