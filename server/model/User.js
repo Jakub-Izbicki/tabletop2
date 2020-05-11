@@ -16,7 +16,11 @@ const UserSchema = mongoose.Schema({
   createdAt: {
     type: Date,
     default: Date.now()
-  }
+  },
+  level: {
+    type: String,
+    default: 'basic'
+  },
 });
 
 // export model user with UserSchema
