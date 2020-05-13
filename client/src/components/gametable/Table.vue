@@ -26,30 +26,61 @@
   import GridCard from "./grid/GridCard";
   import Hand from "./hand/Hand";
   import Library from "./library/Library";
+  import * as SockJS from 'sockjs-client';
+  import * as Stomp from 'stompjs';
 
   export default {
     name: "Table",
     components: {Library, Hand, GridCard, GridSlot},
+    data() {
+      return {
+        stompClient: null,
+      }
+    },
     computed: {
       ...createNamespacedHelpers('grid').mapGetters([
         'cols', 'rows', 'gridSlots', 'gridCards',
       ]),
     },
     created() {
-      const slots = [];
+      this.setupGridSlots();
+      this.setupGameConnection();
+    },
+    methods: {
+      setupGridSlots() {
+        const slots = [];
 
-      [...Array(this.cols).keys()].map(col => col + 1).forEach(col => {
-        [...Array(this.rows).keys()].map(row => row + 1).forEach(row => {
-          slots.push({
-            id: `${col}-${row}`,
-            col,
-            row,
-            occupied: false,
+        [...Array(this.cols).keys()].map(col => col + 1).forEach(col => {
+          [...Array(this.rows).keys()].map(row => row + 1).forEach(row => {
+            slots.push({
+              id: `${col}-${row}`,
+              col,
+              row,
+              occupied: false,
+            })
           })
-        })
-      });
+        });
 
-      this.$store.dispatch('grid/setGridSlots', {slots});
+        this.$store.dispatch('grid/setGridSlots', {slots});
+      },
+      setupGameConnection() {
+        var socket = new SockJS('http://localhost:9090/gs-guide-websocket');
+        this.stompClient = Stomp.over(socket);
+        this.stompClient.connect({}, (frame) => {
+          // setConnected(true);
+          console.log('Connected: ' + frame);
+          this.stompClient.subscribe('/game/gridCards', function (gridCards) {
+            console.log(JSON.parse(gridCards.body));
+          });
+          this.send();
+        });
+      },
+      send() {
+        this.stompClient.send("/game/updateGridCards", {},
+            JSON.stringify({
+              gridCards: this.gridCards
+            }));
+      },
     },
   }
 </script>
