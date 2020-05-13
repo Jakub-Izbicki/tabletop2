@@ -1,16 +1,14 @@
 const mongoose = require("mongoose");
 
-const username = process.env.TABLETOP_MONGO_USER;
-const password = process.env.TABLETOP_MONGO_PASSWORD;
-
-const MONGOURI = `mongodb+srv://${username}:${password}@tabletop-1-dzqwz.mongodb.net/test?retryWrites=true&w=majority`;
+// Replace this with your MONGOURI.
+const MONGOURI = "mongodb://test:a12345@ds257698.mlab.com:57698/node-auth";
 
 const InitiateMongoServer = async () => {
   try {
     await mongoose.connect(MONGOURI, {
       useNewUrlParser: true
     });
-    console.log("--- Connected to database ---");
+    console.log("Connected to DB !!");
   } catch (e) {
     console.log(e);
     throw e;
