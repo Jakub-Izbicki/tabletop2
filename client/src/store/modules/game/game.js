@@ -1,10 +1,14 @@
 export default {
   namespaced: true,
   state: {
+    gameStompClient: null,
     draggedCardId: null,
     dragState: null,
   },
   getters: {
+    gameStompClient(state) {
+      return state.gameStompClient;
+    },
     draggedCardId(state) {
       return state.draggedCardId;
     },
@@ -24,6 +28,9 @@ export default {
     },
   },
   mutations: {
+    SET_GAME_STOMP_CLIENT(state, {stompClient}) {
+      state.gameStompClient = stompClient;
+    },
     SET_DRAGGED_CARD(state, {cardId}) {
       state.draggedCardId = cardId;
     },
@@ -41,6 +48,9 @@ export default {
     },
   },
   actions: {
+    setGameStompClient({commit}, {stompClient}) {
+      commit('SET_GAME_STOMP_CLIENT', {stompClient});
+    },
     setDraggedCardId({commit}, {cardId}) {
       commit('SET_DRAGGED_CARD', {cardId});
     },

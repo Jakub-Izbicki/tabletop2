@@ -34,6 +34,7 @@
         'isGridCardDrag',
         'isHandCardDrag',
         'isLibraryCardDrag',
+        'draggedCardId',
       ]),
       ...createNamespacedHelpers('grid').mapGetters([
         'cols', 'rows',
@@ -69,6 +70,7 @@
           this.$store.dispatch('game/resetDrag');
           this.$store.dispatch('grid/moveCardToSlot', {
             slotId: this.gridSlot.id,
+            cardId: this.draggedCardId,
           });
         } else if (this.isHandCardDrag) {
           this.$store.dispatch('game/resetDrag');

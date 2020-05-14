@@ -61,12 +61,20 @@ export default {
     },
   },
   actions: {
-    moveCardToSlot({commit, getters, rootGetters}, {slotId}) {
+    moveCardToSlot({commit, getters, rootGetters},
+        {slotId, cardId, suppressStompDataSend}) {
       commit('MOVE_CARD_TO_SLOT', {
-        cardId: rootGetters['game/draggedCardId'],
+        cardId,
         slotId,
         gridSlots: getters.gridSlots,
       });
+
+      if (suppressStompDataSend) {
+        return;
+      }
+
+      rootGetters['game/gameStompClient'].send("/game/moveCardToSlot", {},
+          JSON.stringify({slotId, cardId}));
     },
     setGridSlots({commit}, {slots}) {
       commit('SET_GRID_SLOTS', {slots});

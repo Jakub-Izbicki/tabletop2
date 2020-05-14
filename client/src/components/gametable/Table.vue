@@ -32,15 +32,11 @@
   export default {
     name: "Table",
     components: {Library, Hand, GridCard, GridSlot},
-    data() {
-      return {
-        stompClient: null,
-      }
-    },
     computed: {
       ...createNamespacedHelpers('grid').mapGetters([
         'cols', 'rows', 'gridSlots', 'gridCards',
       ]),
+      ...createNamespacedHelpers('game').mapGetters(['gameStompClient',]),
     },
     created() {
       this.setupGridSlots();
@@ -65,21 +61,18 @@
       },
       setupGameConnection() {
         var socket = new SockJS('http://localhost:9090/gs-guide-websocket');
-        this.stompClient = Stomp.over(socket);
-        this.stompClient.connect({}, (frame) => {
-          // setConnected(true);
-          console.log('Connected: ' + frame);
-          this.stompClient.subscribe('/game/gridCards', function (gridCards) {
-            console.log(JSON.parse(gridCards.body));
+        const stompClient = Stomp.over(socket);
+        stompClient.connect({}, () => {
+          stompClient.subscribe('/game/gridCards', (gridCards) => {
+            const body = JSON.parse(gridCards.body);
+            this.$store.dispatch('grid/moveCardToSlot', {
+              slotId: body.slotId,
+              cardId: body.cardId,
+              suppressStompDataSend: true,
+            });
           });
-          this.send();
         });
-      },
-      send() {
-        this.stompClient.send("/game/updateGridCards", {},
-            JSON.stringify({
-              gridCards: this.gridCards
-            }));
+        this.$store.dispatch('game/setGameStompClient', {stompClient});
       },
     },
   }
