@@ -1,3 +1,6 @@
+import * as SockJS from "sockjs-client";
+import * as Stomp from "stompjs";
+
 export default {
   namespaced: true,
   state: {
@@ -48,7 +51,22 @@ export default {
     },
   },
   actions: {
-    setGameStompClient({commit}, {stompClient}) {
+    setupGameStompClient({dispatch, commit}) {
+      var socket = new SockJS('http://localhost:9090/gs-guide-websocket');
+      const stompClient = Stomp.over(socket);
+
+      stompClient.connect({}, () => {
+        stompClient.subscribe('/game/moveCardToSlot', (gridCards) => {
+          const body = JSON.parse(gridCards.body);
+          dispatch('grid/moveCardToSlot', {
+                slotId: body.slotId,
+                cardId: body.cardId,
+                suppressStompDataSend: true,
+              },
+              {root: true});
+        });
+      });
+
       commit('SET_GAME_STOMP_CLIENT', {stompClient});
     },
     setDraggedCardId({commit}, {cardId}) {

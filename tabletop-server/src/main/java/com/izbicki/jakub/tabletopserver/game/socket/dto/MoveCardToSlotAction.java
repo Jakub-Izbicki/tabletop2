@@ -1,4 +1,4 @@
-package com.izbicki.jakub.tabletopserver.game.dto;
+package com.izbicki.jakub.tabletopserver.game.socket.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

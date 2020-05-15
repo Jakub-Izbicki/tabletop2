@@ -69,12 +69,10 @@ export default {
         gridSlots: getters.gridSlots,
       });
 
-      if (suppressStompDataSend) {
-        return;
+      if (!suppressStompDataSend) {
+        rootGetters['game/gameStompClient'].send("/game/moveCardToSlot", {},
+            JSON.stringify({slotId, cardId}));
       }
-
-      rootGetters['game/gameStompClient'].send("/game/moveCardToSlot", {},
-          JSON.stringify({slotId, cardId}));
     },
     setGridSlots({commit}, {slots}) {
       commit('SET_GRID_SLOTS', {slots});

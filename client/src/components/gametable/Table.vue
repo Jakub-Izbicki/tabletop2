@@ -26,8 +26,6 @@
   import GridCard from "./grid/GridCard";
   import Hand from "./hand/Hand";
   import Library from "./library/Library";
-  import * as SockJS from 'sockjs-client';
-  import * as Stomp from 'stompjs';
 
   export default {
     name: "Table",
@@ -60,19 +58,7 @@
         this.$store.dispatch('grid/setGridSlots', {slots});
       },
       setupGameConnection() {
-        var socket = new SockJS('http://localhost:9090/gs-guide-websocket');
-        const stompClient = Stomp.over(socket);
-        stompClient.connect({}, () => {
-          stompClient.subscribe('/game/gridCards', (gridCards) => {
-            const body = JSON.parse(gridCards.body);
-            this.$store.dispatch('grid/moveCardToSlot', {
-              slotId: body.slotId,
-              cardId: body.cardId,
-              suppressStompDataSend: true,
-            });
-          });
-        });
-        this.$store.dispatch('game/setGameStompClient', {stompClient});
+        this.$store.dispatch('game/setupGameStompClient');
       },
     },
   }

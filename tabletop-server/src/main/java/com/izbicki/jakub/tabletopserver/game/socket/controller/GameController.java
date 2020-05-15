@@ -1,6 +1,6 @@
-package com.izbicki.jakub.tabletopserver.game.controller;
+package com.izbicki.jakub.tabletopserver.game.socket.controller;
 
-import com.izbicki.jakub.tabletopserver.game.dto.MoveCardToSlotAction;
+import com.izbicki.jakub.tabletopserver.game.socket.dto.MoveCardToSlotAction;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
@@ -8,8 +8,8 @@ import org.springframework.stereotype.Controller;
 @Controller
 public class GameController {
 
-  @MessageMapping("/moveCardToSlot")
-  @SendTo("/game/gridCards")
+  @MessageMapping("/game/moveCardToSlot")
+  @SendTo("/game/moveCardToSlot")
   public MoveCardToSlotAction gameGrid(MoveCardToSlotAction moveCardToSlotAction) {
     return moveCardToSlotAction;
   }
