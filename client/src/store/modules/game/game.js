@@ -54,6 +54,7 @@ export default {
     setupGameStompClient({dispatch, commit}) {
       var socket = new SockJS('http://localhost:9090/gs-guide-websocket');
       const stompClient = Stomp.over(socket);
+      stompClient.debug = null;
 
       stompClient.connect({}, () => {
         stompClient.subscribe('/user/game/moveCardToSlot', (gridCards) => {
@@ -69,6 +70,8 @@ export default {
         });
 
         stompClient.subscribe('/user/game/moveCard', (moveCard) => {
+          console.log('INCOMING moveCard');
+
           const body = JSON.parse(moveCard.body);
           dispatch('grid/moveCard', {
                 cardId: body.cardId,

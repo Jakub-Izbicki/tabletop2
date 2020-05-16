@@ -66,7 +66,15 @@ export default {
         }
         return card;
       })
-    }
+    },
+    RESET_CARD_TRANSFORM(state, {cardId}) {
+      state.gridCards = state.gridCards.map(card => {
+        if (card.id === cardId) {
+          return {...card, transform: null};
+        }
+        return card;
+      })
+    },
   },
   actions: {
     moveCardToSlot({commit, getters, rootGetters},
@@ -76,6 +84,7 @@ export default {
         slotId,
         gridSlots: getters.gridSlots,
       });
+      commit('RESET_CARD_TRANSFORM', {cardId});
 
       if (!suppressStompDataSend) {
         rootGetters['game/gameStompClient'].send("/game/moveCardToSlot", {},

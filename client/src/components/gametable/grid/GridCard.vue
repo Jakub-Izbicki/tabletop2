@@ -26,6 +26,7 @@
 <script>
   import {createNamespacedHelpers} from "vuex";
   import Moveable from 'vue-moveable';
+  import throttle from 'lodash.throttle'
 
   export default {
     name: "GridCard",
@@ -38,7 +39,14 @@
           throttleDrag: 0,
           renderDirections: [],
         },
+        throttledMoveCard: null,
       }
+    },
+    created() {
+      const moveCard = (cardId, transform) => this.$store.dispatch('grid/moveCard',
+          {cardId, transform});
+
+      this.throttledMoveCard = throttle(moveCard, 33);
     },
     beforeDestroy() {
       this.$store.dispatch('game/resetDrag');
@@ -76,7 +84,7 @@
       },
       onDrag({target, transform}) {
         target.style.transform = transform;
-        this.$store.dispatch('grid/moveCard', {cardId: this.cardId, transform})
+        this.throttledMoveCard(this.cardId, transform);
       },
       onDragEnd({target}) {
         target.style.transform = null;
