@@ -56,11 +56,23 @@ export default {
       const stompClient = Stomp.over(socket);
 
       stompClient.connect({}, () => {
-        stompClient.subscribe('/game/moveCardToSlot', (gridCards) => {
+        stompClient.subscribe('/user/game/moveCardToSlot', (gridCards) => {
+          console.log('INCOMING moveCardToSlot');
+
           const body = JSON.parse(gridCards.body);
           dispatch('grid/moveCardToSlot', {
                 slotId: body.slotId,
                 cardId: body.cardId,
+                suppressStompDataSend: true,
+              },
+              {root: true});
+        });
+
+        stompClient.subscribe('/user/game/moveCard', (moveCard) => {
+          const body = JSON.parse(moveCard.body);
+          dispatch('grid/moveCard', {
+                cardId: body.cardId,
+                transform: body.transform,
                 suppressStompDataSend: true,
               },
               {root: true});

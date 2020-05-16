@@ -8,7 +8,7 @@ export default {
         id: '1',
         col: '10',
         row: '10',
-        name: 'name 1'
+        name: 'name 1',
       },
       {
         id: '2',
@@ -59,6 +59,14 @@ export default {
     ADD_CARD(state, {card, col, row}) {
       state.gridCards = [...state.gridCards, {...card, col, row}];
     },
+    MOVE_CARD(state, {cardId, transform}) {
+      state.gridCards = state.gridCards.map(card => {
+        if (card.id === cardId) {
+          return {...card, transform};
+        }
+        return card;
+      })
+    }
   },
   actions: {
     moveCardToSlot({commit, getters, rootGetters},
@@ -95,6 +103,15 @@ export default {
       commit('ADD_CARD', {card, col, row});
       dispatch('library/removeCard', {cardId: card.id},
           {root: true});
+    },
+    moveCard({commit, rootGetters},
+        {cardId, transform, suppressStompDataSend}) {
+      commit('MOVE_CARD', {cardId, transform});
+
+      if (!suppressStompDataSend) {
+        rootGetters['game/gameStompClient'].send("/game/moveCard", {},
+            JSON.stringify({cardId, transform}));
+      }
     },
   },
 }

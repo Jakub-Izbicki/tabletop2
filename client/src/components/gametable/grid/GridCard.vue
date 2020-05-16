@@ -10,6 +10,7 @@
 
     <Moveable class="moveable absolute h-gridCard w-gridCard bg-cardPlaceholder rounded-card"
               :class="{'pointer-events-none': isCardDrag}"
+              :style="{'transform': card.transform}"
               ref="moveable"
               v-bind="moveable"
               @dragStart="onDragStart"
@@ -36,7 +37,7 @@
           draggable: true,
           throttleDrag: 0,
           renderDirections: [],
-        }
+        },
       }
     },
     beforeDestroy() {
@@ -75,6 +76,7 @@
       },
       onDrag({target, transform}) {
         target.style.transform = transform;
+        this.$store.dispatch('grid/moveCard', {cardId: this.cardId, transform})
       },
       onDragEnd({target}) {
         target.style.transform = null;

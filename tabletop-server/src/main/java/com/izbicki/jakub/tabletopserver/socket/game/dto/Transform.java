@@ -1,4 +1,4 @@
-package com.izbicki.jakub.tabletopserver.game.socket.dto;
+package com.izbicki.jakub.tabletopserver.socket.game.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,9 +7,9 @@ import lombok.NoArgsConstructor;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class MoveCardToSlotAction {
-
-  private String slotId;
+public class Transform {
 
   private String cardId;
+
+  private String transform;
 }
