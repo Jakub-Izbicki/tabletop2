@@ -58,7 +58,6 @@ export default {
 
       stompClient.connect({}, () => {
         stompClient.subscribe('/user/game/moveCardToSlot', (gridCards) => {
-          console.log('INCOMING moveCardToSlot');
 
           const body = JSON.parse(gridCards.body);
           dispatch('grid/moveCardToSlot', {
@@ -70,7 +69,6 @@ export default {
         });
 
         stompClient.subscribe('/user/game/moveCard', (moveCard) => {
-          console.log('INCOMING moveCard');
 
           const body = JSON.parse(moveCard.body);
           dispatch('grid/moveCard', {

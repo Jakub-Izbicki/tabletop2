@@ -53,6 +53,7 @@
       onDragEnd({target}) {
         target.style.transform = null;
         this.$store.dispatch('game/resetDrag');
+        this.$store.dispatch('grid/resetCardTransform', {cardId: this.draggedCardId});
       },
     },
   }

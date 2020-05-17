@@ -32,6 +32,7 @@
         'isCardDrag',
         'isGridCardDrag',
         'isHandCardDrag',
+        'draggedCardId',
       ]),
       ...createNamespacedHelpers('library').mapGetters(['libraryCards',]),
     },
@@ -46,9 +47,11 @@
 
         if (this.isGridCardDrag) {
           this.$store.dispatch('game/resetDrag');
+          this.$store.dispatch('grid/resetCardTransform', {cardId: this.draggedCardId});
           this.$store.dispatch('library/addCardToLibraryFromGrid');
         } else if (this.isHandCardDrag) {
           this.$store.dispatch('game/resetDrag');
+          this.$store.dispatch('grid/resetCardTransform', {cardId: this.draggedCardId});
           this.$store.dispatch('library/addCardToLibraryFromHand');
         }
       },

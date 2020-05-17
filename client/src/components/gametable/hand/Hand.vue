@@ -44,9 +44,11 @@
 
         if (this.isGridCardDrag) {
           this.$store.dispatch('game/resetDrag');
+          this.$store.dispatch('grid/resetCardTransform', {cardId: this.draggedCardId});
           this.$store.dispatch('hand/addCardToHandFromGrid');
         } else if (this.isLibraryCardDrag) {
           this.$store.dispatch('game/resetDrag');
+          this.$store.dispatch('grid/resetCardTransform', {cardId: this.draggedCardId});
           this.$store.dispatch('hand/addCardToHandFromLibrary');
         }
       },

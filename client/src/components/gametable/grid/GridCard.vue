@@ -62,10 +62,11 @@
             {cardId, transform: vwTransform})
       };
 
-      this.throttledMoveCard = throttle(moveCard, 33);
+      this.throttledMoveCard = throttle(moveCard, 16);
     },
     beforeDestroy() {
       this.$store.dispatch('game/resetDrag');
+      this.$store.dispatch('grid/resetCardTransform', {cardId: this.draggedCardId});
     },
     computed: {
       ...createNamespacedHelpers('game').mapGetters([
@@ -105,7 +106,9 @@
       onDragEnd({target}) {
         target.style.transform = null;
         this.$store.dispatch('game/resetDrag');
+        this.$store.dispatch('grid/resetCardTransform', {cardId: this.draggedCardId});
       },
+
     }
   }
 </script>
