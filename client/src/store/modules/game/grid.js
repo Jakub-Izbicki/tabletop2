@@ -1,5 +1,6 @@
 import gsap from 'gsap'
 import GameDimensionsUtil from "../../../util/GameDimensionsUtil";
+import throttle from 'lodash.throttle'
 
 export default {
   namespaced: true,
@@ -88,26 +89,13 @@ export default {
       }
       const util = new GameDimensionsUtil();
 
-      const slotEl = document.getElementById(slotId);
-      const slotElLeft = slotEl.offsetLeft + slotEl.offsetWidth / 2;
-      const slotElTop = slotEl.offsetTop + slotEl.offsetHeight / 2;
-      const slotElVw = util.getVwFromPx(slotElLeft, slotElTop);
-
-      const cardEl = document.getElementById(cardId).children[0];
-      const cardElLeft = cardEl.offsetLeft + cardEl.offsetWidth / 2;
-      const cardElTop = cardEl.offsetTop + cardEl.offsetHeight / 2;
-      const cardElVw = util.getVwFromPx(cardElLeft, cardElTop);
-
-      const card = getters.gridCards.find(card => card.id === cardId);
-      const cardTranslate = util.getVwFromTransform(card.transform);
-
-      const move = () => {
+      const move = throttle(() => {
         dispatch('grid/localMoveCard', {
               cardId,
               transform: `translate(${cardTranslate.left}vw, ${cardTranslate.top}vw)`,
             },
             {root: true})
-      };
+      }, 16);
 
       const moveToSlot = () => {
         commit('MOVE_CARD_TO_SLOT', {
@@ -118,11 +106,16 @@ export default {
         commit('RESET_CARD_TRANSFORM', {cardId});
       };
 
-      gsap.to(cardTranslate, 0.1,
+      const card = getters.gridCards.find(card => card.id === cardId);
+      const cardTranslate = util.getVwFromTransform(card.transform);
+
+      const travelDistance = util.getVwBetween(cardTranslate, cardId, slotId);
+
+      gsap.to(cardTranslate,
           {
-            left: `+=${slotElVw.left - cardTranslate.left
-            - cardElVw.left}`,
-            top: `+=${slotElVw.top - cardTranslate.top - cardElVw.top}`,
+            duration: 2,
+            left: `+=${travelDistance.x}`,
+            top: `+=${travelDistance.y}`,
             onUpdate: move,
             onComplete: moveToSlot
           });

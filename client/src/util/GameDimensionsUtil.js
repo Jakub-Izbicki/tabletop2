@@ -26,4 +26,24 @@ export default class GameDimensionsUtil {
 
     return {left: leftVw, top: topVw};
   }
+
+  getVwBetween(fromTransform, fromId, toId) {
+    const slotEl = document.getElementById(toId);
+    const slotElLeft = slotEl.offsetLeft + slotEl.offsetWidth / 2;
+    const slotElTop = slotEl.offsetTop + slotEl.offsetHeight / 2;
+    const slotElVw = this.getVwFromPx(slotElLeft, slotElTop);
+
+    const cardEl = document.getElementById(fromId).children[0];
+    const cardElLeft = cardEl.offsetLeft + cardEl.offsetWidth / 2;
+    const cardElTop = cardEl.offsetTop + cardEl.offsetHeight / 2;
+    const cardElVw = this.getVwFromPx(cardElLeft, cardElTop);
+
+    console.log('slotElVw', slotElVw);
+    console.log('cardElVw', cardElVw);
+
+    return {
+      x: slotElVw.left - fromTransform.left - cardElVw.left,
+      y: slotElVw.top - fromTransform.top - cardElVw.top
+    }
+  }
 }
