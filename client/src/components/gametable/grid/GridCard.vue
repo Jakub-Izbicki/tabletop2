@@ -55,8 +55,7 @@
         const leftVwPercentage = (left / vw) * 100;
         const topVwPercentage = (top / vw) * 100;
 
-        const vwTransform = transform.replace(/translate(.*)/g,
-            `translate(${leftVwPercentage}vw, ${topVwPercentage}vw)`);
+        const vwTransform = `translate(${leftVwPercentage}vw, ${topVwPercentage}vw)`;
 
         this.$store.dispatch('grid/moveCard',
             {cardId, transform: vwTransform})
@@ -99,12 +98,10 @@
         });
         this.$store.dispatch('game/setGridCardDrag');
       },
-      onDrag({target, transform}) {
-        target.style.transform = transform;
+      onDrag({transform}) {
         this.throttledMoveCard(this.cardId, transform);
       },
-      onDragEnd({target}) {
-        target.style.transform = null;
+      onDragEnd() {
         this.$store.dispatch('game/resetDrag');
         this.$store.dispatch('grid/resetCardTransform', {cardId: this.draggedCardId});
       },
