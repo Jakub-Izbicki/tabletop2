@@ -44,7 +44,6 @@ export default {
   },
   mutations: {
     MOVE_CARD_TO_SLOT(state, {cardId, slotId, gridSlots}) {
-      console.log('MOVE_CARD_TO_SLOT')
       const targetSlot = gridSlots.find(slot => slot.id === slotId);
 
       state.gridCards = state.gridCards.map(card => {
@@ -64,7 +63,6 @@ export default {
       state.gridCards = [...state.gridCards, {...card, col, row}];
     },
     MOVE_CARD(state, {cardId, transform}) {
-      console.log("MOVE_CARD");
       state.gridCards = state.gridCards.map(card => {
         if (card.id === cardId) {
           return {...card, transform};
@@ -73,7 +71,6 @@ export default {
       })
     },
     RESET_CARD_TRANSFORM(state, {cardId}) {
-      console.log('RESET_CARD_TRANSFORM')
       state.gridCards = state.gridCards.map(card => {
         if (card.id === cardId) {
           return {...card, transform: null};

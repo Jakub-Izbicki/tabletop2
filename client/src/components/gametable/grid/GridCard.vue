@@ -102,5 +102,8 @@
   }
 </script>
 
-<style scoped>
+<style>
+  .moveable-line {
+    background: rgba(68, 170, 255, 0) !important;
+  }
 </style>
