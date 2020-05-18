@@ -38,9 +38,6 @@ export default class GameDimensionsUtil {
     const cardElTop = cardEl.offsetTop + cardEl.offsetHeight / 2;
     const cardElVw = this.getVwFromPx(cardElLeft, cardElTop);
 
-    console.log('slotElVw', slotElVw);
-    console.log('cardElVw', cardElVw);
-
     return {
       x: slotElVw.left - fromTransform.left - cardElVw.left,
       y: slotElVw.top - fromTransform.top - cardElVw.top

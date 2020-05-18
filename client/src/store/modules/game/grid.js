@@ -113,9 +113,9 @@ export default {
 
       gsap.to(cardTranslate,
           {
-            duration: 2,
-            left: `+=${travelDistance.x}`,
-            top: `+=${travelDistance.y}`,
+            duration: 0.2,
+            left: `+=${Number.parseFloat(travelDistance.x).toFixed(2)}`,
+            top: `+=${Number.parseFloat(travelDistance.y).toFixed(2)}`,
             onUpdate: move,
             onComplete: moveToSlot
           });
