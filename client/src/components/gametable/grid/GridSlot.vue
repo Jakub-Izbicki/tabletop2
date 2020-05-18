@@ -3,6 +3,7 @@
        :class="{'h-gridSlotEdge': isHorizontalBorder}"
        :style="[{'grid-column-start': `${gridSlot.col}`},
                 {'grid-row-start': `${gridSlot.row}`}]"
+       :id="gridSlot.id"
        @mouseover="onDragOver"
        @mouseup="onDrop"
        @mouseleave="onDragLeave">

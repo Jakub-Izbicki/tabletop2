@@ -8,16 +8,22 @@ export default class GameDimensionsUtil {
   getTranslateFromPxToVw(transform) {
     // eslint-disable-next-line no-unused-vars
     const [both, left, top] = this.getPxLeftAndTop.exec(transform);
-    const vw = viewport().width;
-    const leftVwPercentage = (left / vw) * 100;
-    const topVwPercentage = (top / vw) * 100;
+    const vw = this.getVwFromPx(left, top);
 
-    return `translate(${leftVwPercentage}vw, ${topVwPercentage}vw)`;
+    return `translate(${vw.left}vw, ${vw.top}vw)`;
   }
 
   getVwFromTransform(transform) {
     // eslint-disable-next-line no-unused-vars
     const [both, left, top] = this.getVwLeftAndTop.exec(transform);
     return {left, top};
+  }
+
+  getVwFromPx(left, top) {
+    const vw = viewport().width;
+    const leftVw = (left / vw) * 100;
+    const topVw = (top / vw) * 100;
+
+    return {left: leftVw, top: topVw};
   }
 }

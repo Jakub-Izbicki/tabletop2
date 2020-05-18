@@ -6,7 +6,8 @@
                 {'transform translate-x-gridTranslateRight': isRight},
                 {'pointer-events-none': isCardDrag && draggedCardId === card.id}]"
        :style="[{'grid-column-start': `${card.col}`},
-                {'grid-row-start': `${card.row}`}]">
+                {'grid-row-start': `${card.row}`}]"
+       :id="cardId">
 
     <Moveable class="moveable absolute h-gridCard w-gridCard bg-cardPlaceholder rounded-card"
               :class="{'pointer-events-none': isCardDrag}"

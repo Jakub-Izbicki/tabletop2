@@ -86,14 +86,25 @@ export default {
         rootGetters['game/gameStompClient'].send("/game/moveCardToSlot", {},
             JSON.stringify({slotId, cardId}));
       }
+      const util = new GameDimensionsUtil();
+
+      const slotEl = document.getElementById(slotId);
+      const slotElLeft = slotEl.offsetLeft + slotEl.offsetWidth / 2;
+      const slotElTop = slotEl.offsetTop + slotEl.offsetHeight / 2;
+      const slotElVw = util.getVwFromPx(slotElLeft, slotElTop);
+
+      const cardEl = document.getElementById(cardId).children[0];
+      const cardElLeft = cardEl.offsetLeft + cardEl.offsetWidth / 2;
+      const cardElTop = cardEl.offsetTop + cardEl.offsetHeight / 2;
+      const cardElVw = util.getVwFromPx(cardElLeft, cardElTop);
 
       const card = getters.gridCards.find(card => card.id === cardId);
-      const vw = new GameDimensionsUtil().getVwFromTransform(card.transform);
+      const cardTranslate = util.getVwFromTransform(card.transform);
 
-      const f = () => {
+      const move = () => {
         dispatch('grid/localMoveCard', {
               cardId,
-              transform: `translate(${vw.left}vw, ${vw.top}vw)`,
+              transform: `translate(${cardTranslate.left}vw, ${cardTranslate.top}vw)`,
             },
             {root: true})
       };
@@ -107,8 +118,14 @@ export default {
         commit('RESET_CARD_TRANSFORM', {cardId});
       };
 
-      gsap.to(vw, 2,
-          {left: '+=10', top: '+=20', onUpdate: f, onComplete: moveToSlot});
+      gsap.to(cardTranslate, 0.1,
+          {
+            left: `+=${slotElVw.left - cardTranslate.left
+            - cardElVw.left}`,
+            top: `+=${slotElVw.top - cardTranslate.top - cardElVw.top}`,
+            onUpdate: move,
+            onComplete: moveToSlot
+          });
     },
     setGridSlots({commit}, {slots}) {
       commit('SET_GRID_SLOTS', {slots});
