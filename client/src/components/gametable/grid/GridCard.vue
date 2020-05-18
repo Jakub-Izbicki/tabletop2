@@ -27,7 +27,7 @@
   import {createNamespacedHelpers} from "vuex";
   import Moveable from 'vue-moveable';
   import throttle from 'lodash.throttle'
-  import viewport from 'get-viewport-size';
+  import GameDimensionsUtil from "../../../util/GameDimensionsUtil";
 
   export default {
     name: "GridCard",
@@ -49,16 +49,8 @@
           return;
         }
 
-        // eslint-disable-next-line no-unused-vars
-        const [both, left, top] = /(-?\d+(?:\.\d+)?)px, (-?\d+(?:\.\d+)?)px/g.exec(transform);
-        const vw = viewport().width;
-        const leftVwPercentage = (left / vw) * 100;
-        const topVwPercentage = (top / vw) * 100;
-
-        const vwTransform = `translate(${leftVwPercentage}vw, ${topVwPercentage}vw)`;
-
-        this.$store.dispatch('grid/moveCard',
-            {cardId, transform: vwTransform})
+        const vwTransform = new GameDimensionsUtil().getTranslateFromPxToVw(transform);
+        this.$store.dispatch('grid/moveCard', {cardId, transform: vwTransform})
       };
 
       this.throttledMoveCard = throttle(moveCard, 16);
