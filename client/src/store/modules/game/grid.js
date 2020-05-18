@@ -1,3 +1,6 @@
+import gsap from 'gsap'
+import GameDimensionsUtil from "../../../util/GameDimensionsUtil";
+
 export default {
   namespaced: true,
   state: {
@@ -41,6 +44,7 @@ export default {
   },
   mutations: {
     MOVE_CARD_TO_SLOT(state, {cardId, slotId, gridSlots}) {
+      console.log('MOVE_CARD_TO_SLOT')
       const targetSlot = gridSlots.find(slot => slot.id === slotId);
 
       state.gridCards = state.gridCards.map(card => {
@@ -60,6 +64,7 @@ export default {
       state.gridCards = [...state.gridCards, {...card, col, row}];
     },
     MOVE_CARD(state, {cardId, transform}) {
+      console.log("MOVE_CARD");
       state.gridCards = state.gridCards.map(card => {
         if (card.id === cardId) {
           return {...card, transform};
@@ -68,6 +73,7 @@ export default {
       })
     },
     RESET_CARD_TRANSFORM(state, {cardId}) {
+      console.log('RESET_CARD_TRANSFORM')
       state.gridCards = state.gridCards.map(card => {
         if (card.id === cardId) {
           return {...card, transform: null};
@@ -77,19 +83,35 @@ export default {
     },
   },
   actions: {
-    moveCardToSlot({commit, getters, rootGetters},
+    moveCardToSlot({dispatch, commit, getters, rootGetters},
         {slotId, cardId, suppressStompDataSend}) {
-      commit('MOVE_CARD_TO_SLOT', {
-        cardId,
-        slotId,
-        gridSlots: getters.gridSlots,
-      });
-      commit('RESET_CARD_TRANSFORM', {cardId});
-
       if (!suppressStompDataSend) {
         rootGetters['game/gameStompClient'].send("/game/moveCardToSlot", {},
             JSON.stringify({slotId, cardId}));
       }
+
+      const card = getters.gridCards.find(card => card.id === cardId);
+      const vw = new GameDimensionsUtil().getVwFromTransform(card.transform);
+
+      const f = () => {
+        dispatch('grid/localMoveCard', {
+              cardId,
+              transform: `translate(${vw.left}vw, ${vw.top}vw)`,
+            },
+            {root: true})
+      };
+
+      const moveToSlot = () => {
+        commit('MOVE_CARD_TO_SLOT', {
+          cardId,
+          slotId,
+          gridSlots: getters.gridSlots,
+        });
+        commit('RESET_CARD_TRANSFORM', {cardId});
+      };
+
+      gsap.to(vw, 2,
+          {left: '+=10', top: '+=20', onUpdate: f, onComplete: moveToSlot});
     },
     setGridSlots({commit}, {slots}) {
       commit('SET_GRID_SLOTS', {slots});
@@ -122,11 +144,16 @@ export default {
             JSON.stringify({cardId, transform}));
       }
     },
-    resetCardTransform({commit, rootGetters}, {cardId}) {
-      commit('MOVE_CARD', {cardId, transform: 'translate(0px, 0px)'});
-
-      rootGetters['game/gameStompClient'].send("/game/moveCard", {},
-          JSON.stringify({cardId, transform: 'translate(0px, 0px)'}));
+    localMoveCard({commit}, {cardId, transform}) {
+      commit('MOVE_CARD', {cardId, transform});
     },
+    resetCardTransform() {
+    }
+    // resetCardTransform({commit, rootGetters}, {cardId}) {
+    //   commit('MOVE_CARD', {cardId, transform: 'translate(0px, 0px)'});
+    //
+    //   rootGetters['game/gameStompClient'].send("/game/moveCard", {},
+    //       JSON.stringify({cardId, transform: 'translate(0px, 0px)'}));
+    // },
   },
 }
