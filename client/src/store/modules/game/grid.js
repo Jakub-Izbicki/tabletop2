@@ -122,7 +122,9 @@ export default {
             JSON.stringify({cardId, transform}));
       }
     },
-    resetCardTransform({rootGetters}, {cardId}) {
+    resetCardTransform({commit, rootGetters}, {cardId}) {
+      commit('MOVE_CARD', {cardId, transform: 'translate(0px, 0px)'});
+
       rootGetters['game/gameStompClient'].send("/game/moveCard", {},
           JSON.stringify({cardId, transform: 'translate(0px, 0px)'}));
     },
